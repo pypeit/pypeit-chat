@@ -218,3 +218,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# pypeit-chat
+# Machine-local Claude Code settings (settings.json is the committed policy)
+.claude/settings.local.json
+# API keys and other secrets
+.env.*
+!.env.example
+*.key
+secrets.toml
+# Built search indices, caches and the release-tag checkout of PypeIt
+index/
+cache/
+# Local model weights
+models/
+*.gguf
+*.safetensors
+# macOS and editors
+.DS_Store
+._*
+.vscode/
+*.code-workspace

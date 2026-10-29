@@ -1,0 +1,9 @@
+numpy
+pyyaml
+tqdm
+IPython
+pytest
+
+# The model is an open-weight LLM served locally through an OpenAI-compatible
+# endpoint.  Runtime, client and retrieval / indexing dependencies will be
+# added once the design in prompts/start_up.md ("Context") is settled.
