@@ -1,9 +1,11 @@
 numpy
 pyyaml
+httpx
+slack_bolt>=1.30
 tqdm
 IPython
 pytest
 
 # The model is an open-weight LLM served locally through an OpenAI-compatible
-# endpoint.  Runtime, client and retrieval / indexing dependencies will be
-# added once the design in prompts/start_up.md ("Context") is settled.
+# endpoint (Ollama by default; see DESIGN.md Section 2.3).  SQLite comes with
+# Python.  slack_bolt brings slack_sdk.

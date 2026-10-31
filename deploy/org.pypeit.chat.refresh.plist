@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd job that runs deploy/refresh_index.sh every Monday at 04:00
+  (DESIGN Section 14).  Install like org.pypeit.chat.plist:
+
+    sed -e "s|__REPO__|$PWD|g" \
+        -e "s|__BIN__|$(dirname "$(which pypeit_chat_ingest)")|g" \
+        -e "s|__LOGS__|$HOME/Library/Logs/pypeit-chat|g" \
+        deploy/org.pypeit.chat.refresh.plist > ~/Library/LaunchAgents/org.pypeit.chat.refresh.plist
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/org.pypeit.chat.refresh.plist
+
+  Run now:  launchctl kickstart gui/$(id -u)/org.pypeit.chat.refresh
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>org.pypeit.chat.refresh</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__REPO__/deploy/refresh_index.sh</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>__REPO__</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__BIN__:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>4</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>__LOGS__/refresh.log</string>
+    <key>StandardErrorPath</key>
+    <string>__LOGS__/refresh.log</string>
+</dict>
+</plist>

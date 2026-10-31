@@ -1,0 +1,53 @@
+# Slack app manifest for pypeit-chat (DESIGN Section 8.4).
+#
+# Create the app at https://api.slack.com/apps -> Create New App -> From an app
+# manifest, and paste this file.  Then:
+#   - Basic Information -> App-Level Tokens: create a token with the
+#     connections:write scope (SLACK_APP_TOKEN, xapp-...).
+#   - Install App: install to the workspace (a workspace admin may need to
+#     approve) and copy the Bot User OAuth Token (SLACK_BOT_TOKEN, xoxb-...).
+# Socket Mode means Slack needs no URL for the bot: it has no inbound ports.
+display_information:
+  name: pypeit-chat
+  description: Answers questions about PypeIt from its documentation and source code.
+  long_description: >-
+    pypeit-chat answers questions about PypeIt, the Python spectroscopic data
+    reduction pipeline: how to set up and run reductions, what parameters do,
+    and why a step failed.  Every answer cites the PypeIt documentation and
+    source code it is based on and says which PypeIt release it is for.  The
+    answers are written by an open-weight language model running on PypeIt
+    hardware, and can be wrong: check the linked sources.
+  background_color: "#1d3557"
+features:
+  app_home:
+    home_tab_enabled: false
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
+  bot_user:
+    display_name: pypeit-chat
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - chat:write
+      - reactions:read
+      - reactions:write
+      - channels:history
+      - groups:history
+      - im:history
+      - mpim:history
+      - im:read
+      - im:write
+      - users:read
+settings:
+  event_subscriptions:
+    bot_events:
+      - app_mention
+      - message.im
+      - reaction_added
+  interactivity:
+    is_enabled: false
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

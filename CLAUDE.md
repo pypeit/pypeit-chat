@@ -4,25 +4,33 @@ Guidance for Claude Code when working in this repository.
 
 ## Project
 
-This repository is used to create and operate a chatbot for **PypeIt
-developers** (not users), grounded in PypeIt's source code and documentation.
-Developers should be able to ask "where is X done?", "how do I add a new
-spectrograph?" or "what does this parameter do?" and get an answer that cites
-the relevant code or docs, rather than a guess.
+This repository is used to create and operate **pypeit-chat**, a Slack bot
+for **PypeIt users** (people reducing data with PypeIt), grounded in PypeIt's
+documentation and source code.  Users ask "how do I make a PypeIt file for my
+Keck/LRIS data?" or "what does this parameter do?" and get an answer that
+cites the docs and code it is based on.  The repository itself is for the
+bot's developers.  `DESIGN.md` is the design; follow it.
 
-Decisions so far (see the Report in `prompts/start_up.md`):
+Decisions so far (see `DESIGN.md` Section 1 and the Q&A in
+`prompts/start_up.md` and `prompts/implement.md`):
 
-- The model is a public, open-weight model hosted locally on a Mac Studio,
-  not the Claude API.  Code should talk to it through an OpenAI-compatible
-  local endpoint, so that the model or runtime can be swapped.
-- Answers are for the latest PypeIt release tag (2.0.1 as of 2026-10-28), and
-  every answer says which version it is for.
-- Still to be decided: where v1 runs, whether Users Slack history is used, and
-  the retrieval approach.
+- The model is a public, open-weight model hosted locally, not the Claude
+  API.  Code talks to it through an OpenAI-compatible endpoint, so the model
+  or runtime can be swapped by configuration.
+- Answers are for the latest PypeIt release tag (2.0.1 as of 2026-10-28),
+  and every answer says which version it is for.  Work from what is on
+  `release`; features only on `develop` (e.g. `soar_tspec`) are out of scope
+  until they are released.
+- v1 runs as a Slack bot with hybrid (BM25 + embedding) retrieval over a
+  docs pool and a code pool.  A tool-using agent arm may come later.
+- Slack history is not indexed and, for now, not used for evaluation
+  questions.
 
-The repository is new: at present it holds `README.md`, `LICENSE` (BSD
-3-Clause), `.gitignore` (the stock GitHub Python template) and `prompts/`.
-Structure will be added by the numbered tasks in `prompts/start_up.md`.
+The package is `pypeit_chat` (ingest, index, answering, Slack front end,
+evaluation); the commands are in `bin/`, deploy files in `deploy/`, and the
+tests in `pypeit_chat/tests` (run `pytest`; no network, model or Slack).
+The bot's own PypeIt checkout and the index live in the git-ignored
+`cache/` and `index/`.
 
 ## Workflow conventions
 
@@ -51,7 +59,8 @@ Structure will be added by the numbered tasks in `prompts/start_up.md`.
 ## Related repositories on disk
 
 These are the chatbot's source material. Read from them freely; never write to
-them.
+them unless asked (e.g. to fix stale docs found by the consistency checks,
+on a branch from `develop` in the PypeIt repository).
 
 - `/Users/xavier/Projects/PypeIt/PypeIt` — the PypeIt source. The Sphinx docs
   (`.rst`) are in `doc/` (developer docs in `doc/dev/`) and are published at

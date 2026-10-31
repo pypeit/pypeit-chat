@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd service for the pypeit-chat Slack bot (DESIGN Section 14).
+
+  Replace the three placeholders, then install for the service account:
+
+    sed -e "s|__REPO__|$PWD|g" \
+        -e "s|__BIN__|$(dirname "$(which pypeit_chat_slack)")|g" \
+        -e "s|__LOGS__|$HOME/Library/Logs/pypeit-chat|g" \
+        deploy/org.pypeit.chat.plist > ~/Library/LaunchAgents/org.pypeit.chat.plist
+    mkdir -p ~/Library/Logs/pypeit-chat
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/org.pypeit.chat.plist
+
+  Stop:     launchctl bootout gui/$(id -u)/org.pypeit.chat
+  Restart:  launchctl kickstart -k gui/$(id -u)/org.pypeit.chat
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>org.pypeit.chat</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__BIN__/pypeit_chat_slack</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>__REPO__</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>__BIN__:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <!-- Restart automatically on failure (DESIGN N6), at most every 30 s. -->
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+    <key>StandardOutPath</key>
+    <string>__LOGS__/bot.log</string>
+    <key>StandardErrorPath</key>
+    <string>__LOGS__/bot.log</string>
+</dict>
+</plist>

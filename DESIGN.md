@@ -12,7 +12,7 @@ This repository is where the bot's developers build and operate it.
 
 | | |
 |---|---|
-| Status | Design, not yet implemented |
+| Status | v1 implemented (M1–M3, deploy files of M4); see `prompts/implement.md` |
 | Repository | <https://github.com/pypeit/pypeit-chat> (local: `/Users/dpelliccia/PypeIt/pypeit-chat`) |
 | Audience | PypeIt users (the repository is for the bot's developers) |
 | Front end (v1) | Slack bot, Socket Mode |
@@ -43,7 +43,7 @@ Repository conventions that this design follows:
 - Task prompts live in `prompts/`, with work logged there.
 - Packaging uses `setup.py` + `requirements.txt` + `pytest.ini`; the package is
   `pypeit_chat` and tests live in `pypeit_chat/tests`.
-- Python ≥ 3.11 in a conda environment (`pypeit14` per `CLAUDE.md`).
+- Python ≥ 3.11 in a conda environment (`pypeit-chat` per `CLAUDE.md`).
 
 ## 2. Goals, non-goals and requirements
 
@@ -56,8 +56,9 @@ Repository conventions that this design follows:
   check what the docs say against what the code does, and say so when they
   differ.
 - Get ParSet questions exactly right: the ParSet, the `.pypeit` path, the
-  default, and per-spectrograph overrides. `snr_thresh` exists in three ParSets
-  with defaults 1.0, 5.0 and 10.0, and the bot must not mix them up.
+  default, and per-spectrograph overrides. At 2.0.1 `snr_thresh` exists in two
+  ParSets (`AlignPar` 1.0, `FindObjPar` 10.0; `develop` adds
+  `CubeExtractionPar` 5.0), and the bot must not mix them up.
 - Keep everything on our hardware: nothing leaves the machine except the Slack
   messages themselves.
 - Stage the rollout: terminal → private Slack workspace → beta channel → launch.
@@ -252,8 +253,8 @@ Details proven in the prototype:
   Type column references which ParSet, starting from `PypeItPar`. Example:
   `bspline_spacing` → `[reduce][skysub]`. A ParSet reached by many paths
   (`ProcessImagesPar` under 15 frame types) lists every path.
-- **Every parameter chunk names its ParSet**, so `snr_thresh` gives three
-  distinct chunks.
+- **Every parameter chunk names its ParSet**, so `snr_thresh` gives one
+  distinct chunk per ParSet.
 - **Spectrograph tags.**
   - Families are the module names in `pypeit/spectrographs/` (minus helpers).
   - A chunk is tagged by its path or headings, with suffixes such as
@@ -294,15 +295,15 @@ about, and the reverse. The links are saved in `index/xref.json`.
 
 - **Definition:** the ParSet class in `pypeit/par/pypeitpar.py`, plus the
   *code default* from `defaults['<key>'] = <value>`, the options and the type.
-  For example, `snr_thresh` has three ParSets with code defaults 1.0, 5.0
-  and 10.0.
+  For example, at 2.0.1 `snr_thresh` has two ParSets with code defaults 1.0
+  (`AlignPar`) and 10.0 (`FindObjPar`).
 - **Uses:** functions that read the parameter
   (`par['reduce']['skysub']['bspline_spacing']`). In 2.0.1, for example,
   `bspline_spacing` is read in `extraction.py` and `find_objects.py`.
 - **Spectrograph overrides:** assignments in `pypeit/spectrographs/*.py`,
   with the value and the method that sets it (`default_pypeit_par`, or the
   setup-dependent `config_specific_par`, which the docs do not list). In
-  2.0.1, 9 spectrograph modules set `snr_thresh`.
+  2.0.1, 8 spectrograph modules set `snr_thresh`.
 
 **From code to docs:** the reverse of all the above.
 
@@ -312,7 +313,19 @@ about, and the reverse. The links are saved in `index/xref.json`.
 - the documented default vs the code default of each parameter;
 - the documented options vs the code options;
 - spectrograph overrides in `pypeit_par.rst` vs assignments in code;
-- RST roles that point to code that doesn't exist at the tag (stale docs).
+- RST roles that point to code that doesn't exist at the tag (stale docs);
+- `.pypeit` settings shown in the docs' `ini` blocks whose parameter does not
+  exist in the code (stale docs).  At 2.0.1 this found, e.g., `maxnumber` in
+  `reduction_tips.rst` (now `maxnumber_sci`);
+- `pypeit` imports in the docs' Python examples that do not resolve
+  (re-exports count; `doc/dev/` is skipped, since it shows code yet to be
+  written).
+
+Release notes of past versions describe past code and are not checked for
+stale references.  Settings the code assigns with a variable key (e.g. a
+loop over a class attribute of per-arm overrides) cannot be read
+statically, so documented spectrograph defaults under such a prefix are not
+compared.
 
 `pypeit_par.rst` is generated from the code, so its mismatches should be rare.
 Hand-written pages and setup-dependent overrides are where docs and code
@@ -626,13 +639,13 @@ no real model.
 - **Ingest:**
   - RST includes, heading levels, anchors, role cleaning, code-safe splitting;
   - ParSet table parsing and path computation (`bspline_spacing`, the 15
-    `ProcessImagesPar` paths, `TelluricPar` reached two ways, three
-    `snr_thresh` chunks);
+    `ProcessImagesPar` paths, `TelluricPar` reached two ways, one
+    `snr_thresh` chunk per ParSet; the test fixture has three ParSets);
   - `ast` line ranges including decorators;
   - latest-tag selection (not fooled by `v1.3`).
 - **Cross-references and consistency** (Section 6.4):
   - code defaults parsed from `pypeitpar.py`: `bspline_spacing` = 0.6, and
-    `snr_thresh` 1.0 / 5.0 / 10.0 in the right ParSets;
+    `snr_thresh` defaults in the right ParSets;
   - parameter uses and spectrograph overrides found, including
     `config_specific_par`;
   - RST roles resolved to code chunks;

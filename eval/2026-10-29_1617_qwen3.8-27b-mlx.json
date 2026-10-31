@@ -1,0 +1,1710 @@
+{
+ "meta": {
+  "tag": "2.0.1",
+  "sha": "d5f8d74da16e131d8c1513bae4c193df280002d4",
+  "model": "qwen3.8:27b-mlx",
+  "embed_model": "nomic-embed-text",
+  "retrieval_only": false,
+  "doc_sources": 6,
+  "code_sources": 4,
+  "created": "2026-10-29_1617"
+ },
+ "summary": {
+  "questions": 40,
+  "on_topic": 35,
+  "off_topic": 5,
+  "expected_source_top10": 0.943,
+  "both_pools_retrieved": 1.0,
+  "off_topic_refused": 1.0,
+  "on_topic_wrongly_refused": 0.0,
+  "answered_ok": 1.0,
+  "key_facts_found": 0.811,
+  "expected_source_cited": 0.914,
+  "docs_and_code_cited": 0.969,
+  "differences_reported": 1.0,
+  "median_seconds": 28.3,
+  "median_first_text_seconds": 17.8
+ },
+ "rows": [
+  {
+   "id": "r01",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.831,
+    "best_cos_code": 0.773,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:tutorials/lris_howto#run-pypeit-setup:0",
+     "docs:search:doc:tutorials/lris_howto#main-run:0",
+     "docs:search:doc:tutorials/lris_howto#run-pypeit-setup:1",
+     "docs:search:doc:spectrographs/lris#default-settings:0",
+     "docs:search:doc:tutorials/lris_howto#organize-data:0",
+     "docs:search:doc:spectrographs/lris#lris-fits-format:0",
+     "code:search:code:pypeit.core.wavecal.spectrographs.templ_keck_lris_red",
+     "code:search:code:pypeit.core.wavecal.spectrographs.templ_keck_lris_red.keck_lris_red_R600_5000",
+     "code:search:code:pypeit.core.wavecal.spectrographs.templ_keck_lris_red.keck_lris_red_R300_5000",
+     "code:link:spectrograph:code:pypeit.spectrographs.keck_lris"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 34.0,
+    "first_text_seconds": 20.7,
+    "tokens": 550,
+    "facts_found": [
+     "pypeit_setup",
+     "keck_lris_red"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 7,
+    "flagged": false,
+    "answer": "To create a PypeIt Reduction File for Keck/LRIS red data, you must first ensure your raw data is organized and, for multi-slit observations, that slitmask information has been appended to the flat field files using TILSOTUA [5]. Then, run `pypeit_setup` with the correct spectrograph name. For the Mark IV detector in the red arm, use `keck_lris_red_mark4`; using the wrong name will cause an error [1].\n\nFirst, generate a sorted list of files:\n\n```bash\npypeit_setup -s keck_lris_red_mark4 -r /path/to/raw/data\n```\n\nThis creates a `.sorted` file in a `setup_files/` directory [1]. Inspect this file to identify the dataset letter (e.g., `A`) you wish to reduce [1]. Then, re-run `pypeit_setup` with the `-c` flag specifying that dataset:\n\n```bash\npypeit_setup -s keck_lris_red_mark4 -r /path/to/raw/data -c A\n```\n\nThis generates a PypeIt Reduction File (e.g., `keck_lris_red_mark4_A.pypeit`) inside a corresponding folder [1]. The generated file contains the spectrograph name, setup parameters (like `amp`, `binning`, `cenwave`), and a data block listing the raw files with their assigned frame types [3]. You should inspect this file to ensure frame types are correctly assigned; if not, you can edit the file directly or comment out bad frames [3].\n\nNote that PypeIt handles different LRIS detector generations with distinct spectrograph names: `keck_lris_red` for post-May 2009 LBNL detectors, `keck_lris_red_orig` for pre-May 2009 data, and `keck_lris_red_mark4` for the Mark IV detector [6][1]. The code defines specific classes for these variants, such as `KeckLRISRMark4Spectrograph` [10].\n\nOnce the `.pypeit` file is ready, you can run the reduction with:\n\n```bash\nrun_pypeit keck_lris_red_mark4_A.pypeit -o\n```\n\nThe `-o` flag overwrites existing output files [2]. PypeIt applies specific default settings for LRIS red configurations automatically; you do not need to add these to your `.pypeit` file, but you can view them in the `keck_lris_red_XXX.par` file generated at the start of the reduction [4]."
+   }
+  },
+  {
+   "id": "r02",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.826,
+    "best_cos_code": 0.771,
+    "best_cover": 0.65,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:reduction_tips#no-1d-spectra-extracted:0",
+     "docs:search:doc:out_spec1D#overview:0",
+     "docs:search:doc:cookbook#examine-the-reduced-spectra:0",
+     "docs:search:doc:out_spec2D#overview:0",
+     "docs:search:doc:tutorials/deveny_howto#deveny-missing1d:0",
+     "docs:search:doc:reduce_by_step#extract-step-outputs:0",
+     "code:search:code:pypeit.scripts.collate_1d",
+     "code:search:code:pypeit.display.spec1dview",
+     "code:search:code:pypeit.scripts.flux_calib",
+     "code:link:definition:code:pypeit.par.pypeitpar.FindObjPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 14.5,
+    "first_text_seconds": 0.1,
+    "tokens": 480,
+    "facts_found": [],
+    "facts_missing": [
+     "snr_thresh"
+    ],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": true,
+    "answer": "If PypeIt ran but produced no 1D spectra, it means the object-finding step failed to detect any sources in that frame [1][3]. This can happen if the slits are misidentified, the detection threshold is too high, or the expected number of objects is set incorrectly [1].\n\nTo fix this, adjust the following parameters in your `.pypeit` file:\n\n1.  **Slit Tracing:** Ensure slits are correctly identified by modifying `edge_thresh` or `minimum_slit_length` [1].\n2.  **Significance Threshold:** Lower the threshold for object finding [1].\n3.  **Maximum Objects:** The documentation suggests setting `maxnumber` to the expected count (default 10) [1]. **However, note that `maxnumber` is not a valid parameter in PypeIt 2.0.1 code.** The actual parameters are `maxnumber_sci` and `maxnumber_std` [10]. For a single object, you would likely adjust `maxnumber_sci`.\n4.  **FWHM:** Modify `find_fwhm` (default 5.0 in code [10], though docs say 10 [1]) to match your spatial PSF [1][10].\n\nYou can also manually extract objects if automatic finding fails. Add a `manual` column to your input file with the format `slit:row:col:fwhm` (FWHM in pixels) [5]. For example, `1:77.5:1000:3.1` [5].\n\nTo test changes quickly, run `run_pypeit` in `-s` mode on a few exposures [1]. If objects are still missing, delete the `spec2d_*.fits` file for that frame and rerun `run_pypeit` **without** the `-o` option to process only that frame [5].\n\n```ini\n[reduce]\n    [[findobj]]\n        find_fwhm = 8.0\n        maxnumber_sci = 1\n```\n\nNote: The docs show `maxnumber` [1], but the code uses `maxnumber_sci`/`maxnumber_std` [10]. Use the code parameters."
+   }
+  },
+  {
+   "id": "r03",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 4,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.784,
+    "best_cos_code": 0.726,
+    "best_cover": 0.909,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:object_finding#algorithm:0",
+     "docs:search:doc:object_finding#algorithm:1",
+     "docs:search:doc:reduction_tips#object-finding-tips:0",
+     "docs:search:param:FindObjPar.snr_thresh",
+     "docs:link:use:param:FindObjPar.find_min_max",
+     "docs:link:definition:doc:spectrographs/gemini_flamingos2#object-finding:0",
+     "code:search:code:pypeit.pypeit_steps.findobj_on_det",
+     "code:search:code:pypeit.find_objects.MultiSlitFindObjects.find_objects_pypeline",
+     "code:link:definition:code:pypeit.par.pypeitpar.FindObjPar.__init__",
+     "code:link:role:code:pypeit.find_objects.FindObjects.run"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 28.3,
+    "first_text_seconds": 22.2,
+    "tokens": 291,
+    "facts_found": [
+     "10.0|10",
+     "FindObjPar",
+     "findobj"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": false,
+    "answer": "The default S/N threshold for object finding is `10.0` [3][4][9]. This parameter, `snr_thresh`, is part of the `FindObjPar` ParSet and is set in the `.pypeit` file under `[reduce][findobj]` [4].\n\nTo lower the threshold, add the following to your `.pypeit` file:\n\n```ini\n[reduce]\n    [[findobj]]\n        snr_thresh = 3.\n```\n\nThis will search for any source with peak flux 3-sigma above the estimated RMS in the smashed slit profile [3].\n\nNote that the code default is `10.0` [9], but several spectrographs have different defaults set in the code:\n- `apf_levy`, `bok_bc`, `gemini_flamingos2`, `gemini_flamingos1`, `mmt_mmirs`: `5.0`\n- `ldt_deveny`: `50.0`\n- `magellan_fire_long`: `5`\n- `jwst_nircam`, `jwst_nirspec`: `10.0`\n\nFor Flamingos-2, it has been reported that the default of 10 could detect junk objects, and increasing it to 20 may help if your science object is bright [6]."
+   }
+  },
+  {
+   "id": "r04",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.849,
+    "best_cos_code": 0.741,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:coadd1d#overview:0",
+     "docs:search:doc:cookbook#co-add-multiple-exposures-datasets-optional:0",
+     "docs:search:doc:coadd1d#wave-method:0",
+     "docs:search:doc:coadd2d#overview:0",
+     "docs:search:doc:coadd3d#run:0",
+     "docs:link:use:param:Coadd1DPar.scale_method",
+     "code:search:code:pypeit.scripts.collate_1d",
+     "code:search:code:pypeit.scripts.collate_1d.coadd",
+     "code:search:code:pypeit.coadd1d.MultiSlitCoAdd1D.coadd",
+     "code:link:script:code:pypeit.scripts.coadd_1dspec.CoAdd1DSpec"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 30.5,
+    "first_text_seconds": 20.6,
+    "tokens": 354,
+    "facts_found": [
+     "pypeit_coadd_1dspec"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "Coadding 1D spectra is done outside the main reduction pipeline (`run_pypeit`) [1]. You can use the `pypeit_coadd_1dspec` script, which is invoked by the `CoAdd1DSpec` class [10].\n\nThe coadding process uses optimal extraction and flux-calibrated data by default [1]. The `coadd` function in `collate_1d.py` determines whether to use flux-calibrated data by checking if all objects in the source list have a flux key (e.g., `FLAM`); if any are missing, it falls back to counts [8]. The actual coadding is performed by `MultiSlitCoAdd1D.coadd`, which calls `multi_combspec` with parameters from the `Coadd1DPar` ParSet [9].\n\nYou can control the rescaling of spectra before coadding using the `scale_method` parameter in the `[coadd1d]` block of your `.pypeit` file. The default is `auto`, which determines the scaling method based on the S/N ratio [6]. Other options include `poly`, `median`, `none`, and `hand` [6].\n\n```ini\n[coadd1d]\n    scale_method = auto\n```\n\nIf you see a noise pattern in your coadded spectrum, it may be due to the `wave_method`. The default `linear` method can cause fluctuations if multiple values land in one re-binned pixel [3]. To avoid this, you can change `wave_method` to `iref`, which uses the grid of one of the spectra as the reference, or use a linear grid with wider spacing [3]."
+   }
+  },
+  {
+   "id": "r05",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 3,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.814,
+    "best_cos_code": 0.785,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:cookbook#flux-calibrate-your-data-optional:0",
+     "docs:search:doc:coadd3d#coadd3d-fluxing:0",
+     "docs:search:doc:fluxing#pypeit-flux-calib:1",
+     "docs:search:doc:scripts#pypeit-flux-calib:1",
+     "docs:link:use:param:FluxCalibratePar.extrap_sens",
+     "docs:link:definition:param:CubePar.sensfile",
+     "code:search:code:pypeit.fluxcalibrate.flux_calibrate",
+     "code:search:code:pypeit.specobjs.SpecObjs.apply_flux_calib",
+     "code:link:definition:code:pypeit.par.pypeitpar.CubePar.__init__",
+     "code:link:script:code:pypeit.scripts.flux_calib.FluxCalib"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 29.8,
+    "first_text_seconds": 18.6,
+    "tokens": 467,
+    "facts_found": [
+     "pypeit_flux_calib"
+    ],
+    "facts_missing": [
+     "pypeit_sensfunc"
+    ],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 9,
+    "flagged": false,
+    "answer": "Flux calibration in PypeIt is a two-stage process: generate a sensitivity function, then apply it to your spectra [1].\n\nFor 1D spectra, use the `pypeit_flux_calib` script [3][4]. It requires a text file that lists your `spec1d` files and the sensitivity function(s) to use. The file format looks like this:\n\n```ini\nflux read\n    filename | sensfile\n    spec1dfile1 | sensfile1\n    spec1dfile2 | sensfile2\nflux end\n```\n\nYou can specify one sensitivity function for all files, one per file, or use an archived sensitivity function (available for `keck_deimos`) by setting `use_archived_sens = True` [3][4]. Run it with:\n\n```console\n$ pypeit_flux_calib my_flux_file.txt\n```\n\nUnder the hood, this calls `flux_calibrate()` [7], which applies the sensitivity function via `SpecObjs.apply_flux_calib()` [8].\n\nFor 3D datacubes, set the `sensfile` parameter in your `coadd3d` file [2]:\n\n```ini\n[reduce]\n    [[cube]]\n        sensfile = my_sensfunc.fits\n```\n\nThe `sensfile` parameter (ParSet `CubePar`) defaults to `None` [6][9]. Note that if you combine multiple standard star exposures into one datacube, the extinction correction is applied at the airmass of the first standard star listed, so use a single exposure if airmasses differ significantly [2].\n\nIf your spectra extend beyond the wavelength range of your sensitivity function, you can set `extrap_sens = True` in your `.pypeit` file to allow extrapolation instead of crashing [5]:\n\n```ini\n[fluxcalib]\n    extrap_sens = True\n```\n\nThis parameter (ParSet `FluxCalibratePar`) defaults to `False` [5]. Note that several spectrographs override this to `True` in code: `gtc_osiris_plus`, `gtc_osiris`, `keck_hires`, and `keck_mosfire` [5]."
+   }
+  },
+  {
+   "id": "r06",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.798,
+    "best_cos_code": 0.685,
+    "best_cover": 0.771,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:trouble#upgrade-faults:0",
+     "docs:search:doc:installing#install-troubleshoot:1",
+     "docs:search:doc:installing#install-troubleshoot:0",
+     "docs:search:doc:scripts#:0",
+     "docs:search:doc:tutorials/setup_gui#main-window-components:0",
+     "docs:search:doc:setup#edit-the-pypeit-file:0",
+     "code:search:code:pypeit.inputfiles.InputFile",
+     "code:search:code:pypeit.pypeit.PypeIt.__init__",
+     "code:search:code:pypeit.setup_gui.model.PypeItSetupGUIModel.open_pypeit_file",
+     "code:search:code:pypeit.scripts.cache_github_data.CacheGithubData.main"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 22.7,
+    "first_text_seconds": 14.8,
+    "tokens": 288,
+    "facts_found": [],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": false,
+    "n_cited": 5,
+    "flagged": false,
+    "answer": "The best approach is to always re-reduce data you're still working with anytime you update PypeIt [1][4]. Different versions may include changes to input/output file data models that are not backwards-compatible, which can cause obscure faults when using files produced by an older version [1].\n\nIf the upgrade itself failed, first try uninstalling your current version and reinstalling it:\n\n```bash\npip uninstall pypeit\n```\n\nIf that also fails, create a fresh environment and reinstall PypeIt there [3]. If you encounter errors associated with missing or unknown keywords/arguments, this may be due to recent releases of PypeIt's dependencies; notify the developers so they can issue a corrected release or advise you on installing older package versions [2][3].\n\nIf the installation succeeded but the code faults or output looks wrong:\n- Check your calibrations, as the issue may be related to a parameter you can change [2].\n- If you don't see `spec1d` files in your `Science` folder, the code may not have found any objects [2].\n- Ensure your `.pypeit` file does not include entries with `None` frame types, as this will crash `run_pypeit` [6].\n\nWhen reporting issues, provide your OS, OS version, Python version, PypeIt version, and the full Traceback [2]."
+   }
+  },
+  {
+   "id": "r07",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.639,
+    "best_cos_code": 0.599,
+    "best_cover": 0.582,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:spectrographs/spectrographs#overview:10",
+     "docs:search:doc:spectrographs/soar_goodman#overview:0",
+     "docs:search:doc:detectors#instrument-specific-data:8",
+     "docs:search:override:soar_goodman_red:2",
+     "docs:search:doc:releases/1.12.1#instrument-specific-updates:0",
+     "docs:search:override:soar_goodman_blue:2",
+     "code:search:code:pypeit.sensfilearchive.SensFileArchive.supported_spectrographs",
+     "code:search:code:pypeit.core.wavecal.spectrographs.templ_soar_goodman.soar_goodman_400",
+     "code:search:code:pypeit.spectrographs.soar_goodman",
+     "code:link:role:code:pypeit.spectrographs.soar_goodman.SOARGoodmanBlueSpectrograph"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 19.9,
+    "first_text_seconds": 17.0,
+    "tokens": 103,
+    "facts_found": [],
+    "facts_missing": [
+     "p200_tspec"
+    ],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 7,
+    "flagged": false,
+    "answer": "The provided sources do not mention the SOAR TripleSpec instrument. They only cover the SOAR Goodman spectrograph (blue and red arms) [1][2][4][6][8][9][10].\n\nTo check if TripleSpec is supported, you should look in the PypeIt documentation under \"Overview — Spectrographs\" [1] or the source code in `pypeit/spectrographs/` for a class like `SOARTripleSpecSpectrograph`."
+   }
+  },
+  {
+   "id": "r08",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.809,
+    "best_cos_code": 0.776,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:out_spec1D#usage:0",
+     "docs:search:doc:out_spec1D#examples:0",
+     "docs:search:doc:collate1d#command-line:2",
+     "docs:search:doc:coadd1d#data-block:0",
+     "docs:search:doc:out_spec1D#file:0",
+     "docs:search:doc:tutorials/mods_howto#d-spectra:0",
+     "code:search:code:pypeit.scripts.collate_1d.read_spec1d_files",
+     "code:search:code:pypeit.specutils.pypeit_loaders.identify_pypeit_spec1d",
+     "code:search:code:pypeit.core.collate.SourceObject.__init__",
+     "code:link:role:code:pypeit.specutils.pypeit_loaders.pypeit_spec1d_loader"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 31.8,
+    "first_text_seconds": 21.8,
+    "tokens": 414,
+    "facts_found": [
+     "SpecObjs"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": false,
+    "answer": "To read a PypeIt spec1d file in Python, use the `SpectrumList` class from `pypeit.specutils` [1]:\n\n```python\nfrom pypeit.specutils import SpectrumList\nspec = SpectrumList.read('my_spec1d_file.fits')\n```\n\nYou must always use `SpectrumList`, even for a single spectrum [1]. The loader accepts several optional arguments [10]:\n\n- `extract`: `'BOX'` for boxcar, `'OPT'` for optimal, or `None` (default), which prefers optimal extraction if available, otherwise boxcar [10].\n- `fluxed`: `True` (default) returns the flux-calibrated spectrum if available; `False` returns counts [10].\n- `strict`: `True` (default) raises an error if the wavelength vector is not monotonically increasing; `False` masks non-monotonic wavelengths instead [10].\n- `chk_version`: `True` (default) enforces strict version checking; `False` attempts to continue but may cause faults [10].\n\nImporting from `pypeit.specutils` registers the PypeIt-specific loaders with specutils, so you don't need to manually configure `~/.specutils` [1].\n\nFor a `pypeit.onespec.OneSpec` file, use `Spectrum` instead:\n\n```python\nfrom pypeit.specutils import Spectrum\nspec = Spectrum.read('my_onespec_file.fits')\n```\n\n`SpectrumList` also works for `OneSpec` files but returns a list of one `Spectrum` [1].\n\nUnder the hood, the collation scripts read spec1d files via `SpecObjs.from_fitsfile()` [7], and the specutils loader identifies PypeIt spec1d files by checking that the FITS header `DMODCLS` fields are `'SpecObjs'` and `'SpecObj'` [8]."
+   }
+  },
+  {
+   "id": "r09",
+   "retrieval": {
+    "expected_hit": false,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.751,
+    "best_cos_code": 0.745,
+    "best_cover": 0.706,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:skysub#key-parameters:0",
+     "docs:search:doc:skysub#skysub-local-algorithm:0",
+     "docs:search:doc:coadd3d#coadd3d-skysub:0",
+     "docs:search:param:CubePar.skysub_frame",
+     "docs:search:param:SkySubPar.global_sky_std",
+     "docs:link:definition:doc:coadd3d#astrometric-correction:0",
+     "code:search:code:pypeit.core.skysub.global_skysub",
+     "code:search:code:pypeit.core.skysub.local_skysub_extract",
+     "code:link:definition:code:pypeit.par.pypeitpar.CubePar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.SkySubPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 37.3,
+    "first_text_seconds": 21.4,
+    "tokens": 493,
+    "facts_found": [],
+    "facts_missing": [
+     "comb_id|bkg_id"
+    ],
+    "expected_cited": false,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 7,
+    "flagged": false,
+    "answer": "For A-B difference imaging (e.g., subtracting a reference frame from a science frame to isolate a transient), you must prevent PypeIt from fitting and subtracting the sky during the reduction of the individual frames. Instead, you should turn off sky subtraction entirely and perform the subtraction on the resulting cubes.\n\n1.  **Disable Sky Subtraction:**\n    Set `skysub_frame` to `none` in your `.pypeit` file. This parameter is in the `CubePar` ParSet and its default is `'image'` [4][9].\n    ```ini\n    [reduce]\n        [[cube]]\n            skysub_frame = none\n    ```\n\n2.  **Disable Variance Updates:**\n    In the `SkySubPar` ParSet, ensure `model_noise` is `False`. The documentation for local sky subtraction notes that `model_noise` should be `False` for A-B difference imaging where sky residuals are being fit [1]. While `model_noise` is a function argument in `local_skysub_extract` [8], it is controlled by the reduction pipeline.\n\n3.  **Handle Standard Stars (if applicable):**\n    If your A-B pair includes standard stars, be aware that `global_sky_std` defaults to `True` in `SkySubPar` [5][10]. For NIR data with narrow slits, bright standards can fill the slit, causing global sky subtraction to fail. You may need to set `global_sky_std = False` to force local sky subtraction, but since you are turning off sky subtraction entirely for A-B, this is less critical unless you are still reducing standards separately.\n\n4.  **Coadd and Subtract:**\n    After reducing the science and reference frames with `skysub_frame = none`, coadd them into 3D cubes. Then, subtract the reference cube from the science cube. The `skysub_frame` parameter in `CubePar` allows you to specify a dedicated sky frame, but for A-B, you typically want `none` to preserve the raw fluxes for manual subtraction [3][4].\n\nNote: The `no_local_sky` parameter in `SkySubPar` skips local sky fitting but still performs profile fitting [1]. This is useful for extended emission lines but is not the same as turning off sky subtraction for A-B imaging."
+   }
+  },
+  {
+   "id": "r10",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.753,
+    "best_cos_code": 0.71,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:calibrations/wave_calib#adding-a-new-solution:0",
+     "docs:search:doc:calibrations/wave_calib#wvcalib-echelle:0",
+     "docs:search:doc:calibrations/wave_calib#basics:2",
+     "docs:search:doc:calibrations/wave_calib#basics:1",
+     "docs:search:doc:spectrographs/ldt_deveny#deveny-trouble-wavecal:1",
+     "docs:search:doc:tutorials/nirspec_high_howto#making-a-new-wavelength-solution:1",
+     "code:search:code:pypeit.core.gui.identify.Identify.store_solution",
+     "code:search:code:pypeit.scripts.arxiv_solution",
+     "code:link:role:code:pypeit.core.wavecal.templates",
+     "code:link:script:code:pypeit.scripts.identify.Identify"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 33.7,
+    "first_text_seconds": 16.2,
+    "tokens": 570,
+    "facts_found": [
+     "pypeit_identify|pypeit_chk_wavecalib"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": false,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "If your wavelength solution failed, the most efficient path forward is to manually identify lines using the By-Hand Approach with `pypeit_identify` [5]. This is particularly recommended for instruments like LDT DeVeny where standard calibration parameters may not resolve the issue [5].\n\nThe general procedure for a new or failed solution is:\n1.  **Identify lines:** Use `pypeit_identify` to mark arc lines. You can zoom in, use the magnifying glass, and select lines by clicking or pressing 'm' [4].\n2.  **Fit:** Press 'f' to fit the identified lines to a polynomial [4].\n3.  **Auto-ID:** Use 'a' to automatically identify the rest of the lines, then fit again with 'f' [4].\n4.  **Save:** If the RMS is within tolerance (default < 0.1 pixels), press 's' to save the solution [4]. You can adjust this tolerance using the `pixtol` command-line option or force saving with `force_save` [4].\n\nOnce saved, `pypeit_identify` will print instructions to use the solution in your PypeIt reduction file [3]. You must add the following block to your `.pypeit` file, replacing the filename with the one printed in the terminal [3][5]:\n\n```ini\n[calibrations]\n    [[wavelengths]]\n        reid_arxiv = wvarxiv_<spectrograph>_<date>.fits\n        method = full_template\n```\n\nThen, run `run_pypeit` [5].\n\n**For Echelle Spectrographs:**\nIf you are working with an echelle, the process involves fitting each order individually, then fitting a 2D solution using order number as a basis [2]. If orders are rejected due to high RMS, you may need to adjust the `rms_thresh_frac_fwhm` parameter or hand-fit specific orders [2]. Note that if you are using a manually created template with `full_template`, you might want to set `ech_2dfit = False` to prevent the 2D fit from altering your manual solution [6].\n\n**For New Instruments/Gratings:**\nIf no existing pipeline exists, try the Holy Grail algorithm first. If that fails, use the By-Hand Approach [1]. You may also need to build a template from the arc spectrum and augment the line list in `data/arc_lines/lists` after carefully vetting new lines [1].\n\nIf you create a new solution, it is recommended to send it to the PypeIt development team (via GitHub or Slack) so it can be added to the standard configuration [3][5]."
+   }
+  },
+  {
+   "id": "g1947",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 2,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.797,
+    "best_cos_code": 0.747,
+    "best_cover": 0.802,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:scripts#pypeit-tellfit:0",
+     "docs:search:doc:telluric#plot:0",
+     "docs:search:doc:telluric#run:0",
+     "docs:search:doc:telluric#run:2",
+     "docs:search:doc:telluric#redshift-r:0",
+     "docs:link:use:param:TelluricPar.maxiter",
+     "code:search:code:pypeit.scripts.tellfit.TellFit.main",
+     "code:search:code:pypeit.par.pypeitpar.TelluricPar",
+     "code:search:code:pypeit.core.telluric",
+     "code:search:code:pypeit.scripts.tellfit.TellFit.get_parser"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 22.1,
+    "first_text_seconds": 10.1,
+    "tokens": 418,
+    "facts_found": [
+     "pypeit_tellfit"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 7,
+    "flagged": false,
+    "answer": "The `pypeit_tellfit` script performs telluric corrections on flux-calibrated, coadded 1D spectra [1]. The core logic resides in the `pypeit.core.telluric` module, which provides functions to evaluate different object models (QSO, star, or polynomial) and handle telluric grids [9].\n\nThe fitting process is iterative. The `maxiter` parameter in the `TelluricPar` ParSet controls the maximum number of iterations for the telluric + object model fitting [6]. The default value is 2 [6]. During these iterations, the code rejects outliers and refits the remaining good pixels, which causes the loss function to improve progressively [6]. The `TellFit.main` method reads this parameter and passes it to the fitting routine [7].\n\nYou can configure the object model via a `.tell` file or command-line arguments. Supported models include `qso` (using PCA files like `qso_pca_1200_3100.fits`), `star` (requiring `star_type` and `star_mag`), or `poly` (requiring `polyorder` and `fit_wv_min_max`) [4]. For QSOs, you can specify a redshift using the `-r` or `--redshift` option [5].\n\nTo visualize the result, use the `--plot` flag to show the final telluric-corrected spectrum [2][4]. You can also save the parameters used by the fit to a file with `--par_outfile` [4].\n\nExample configuration for a QSO:\n```ini\n[telluric]\n    objmodel = qso\n    redshift = 7.6\n    maxiter = 2\n```\n\nThe code supports various spectrographs, with `maxiter` defaulting to 2 for instruments like `gtc_osiris`, `keck_mosfire`, and `magellan_fire` [6]."
+   }
+  },
+  {
+   "id": "g1901",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 2,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.822,
+    "best_cos_code": 0.749,
+    "best_cover": 0.686,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:coadd3d#coadd3d-fluxing:0",
+     "docs:search:doc:fluxing#sensitivity-function:0",
+     "docs:search:doc:fluxing#adding-a-standard-star:0",
+     "docs:search:doc:standards#introduction:0",
+     "docs:search:doc:standards#calspec-standards:0",
+     "docs:search:doc:fluxing#spectroscopic-throughput:1",
+     "code:search:code:pypeit.core.flux_calib.fit_zeropoint",
+     "code:search:code:pypeit.core.flux_calib.find_standard",
+     "code:search:code:pypeit.scripts.collate_1d.flux",
+     "code:link:definition:code:pypeit.par.pypeitpar.CubePar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 32.0,
+    "first_text_seconds": 20.8,
+    "tokens": 400,
+    "facts_found": [],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "If your standard star is not in PypeIt's internal list, you can add it manually if it is available in the ESO database [3]. You must place the corresponding `.dat` file into the `pypeit/data/standards/esofil/` directory and then edit the `esofil_info.txt` file to include the new entry [3]. Ensure the flux column in the `.dat` file is in flux units (files starting with `f` in the ESO database) rather than magnitudes, with units of $10^{-16}$ erg/s/cm²/Å [3].\n\nIf your standard star is not in the ESO database either, you should contact the PypeIt developers [3].\n\nFor context, PypeIt searches a prioritized list of archives (`xshooter`, `calspec`, `esofil`, `noao`, `ing`) and then blackbody spectra to find a match based on celestial coordinates or stellar type/magnitude [4]. The `find_standard` function identifies the standard star in your data by finding the object with the maximum median boxcar counts [8].\n\nOnce you have added the standard, you can proceed with flux calibration. For 1D spectra, the `flux` function in `collate_1d.py` handles the calibration using archived sensitivity function files [9]. For 3D datacubes, you must first extract the standard star spectrum to create a `spec1d` file, generate a sensitivity function, and then specify it in your `coadd3d` file using the `sensfile` parameter in the `CubePar` ParSet [1][10]. Note that if you combine multiple standard star exposures into a single datacube, the extinction correction is applied at the airmass of the first standard star listed in the `coadd3d` file, so exposures with significantly different airmasses should not be combined [1]."
+   }
+  },
+  {
+   "id": "g1903",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.8,
+    "best_cos_code": 0.731,
+    "best_cover": 0.601,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:fluxing#pypeit-sensfunc:1",
+     "docs:search:param:SensFuncPar.star_ra",
+     "docs:search:param:SensFuncPar.star_dec",
+     "docs:search:doc:fluxing#pypeit-sensfunc:4",
+     "docs:link:role:doc:fluxing#sensitivity-output-file:0",
+     "docs:link:definition:doc:dev/build_archived_sensfuncs#creating-the-individual-sensitivity-functions:0",
+     "code:search:code:pypeit.sensfunc.SensFunc",
+     "code:search:code:pypeit.sensfunc.IRSensFunc",
+     "code:link:definition:code:pypeit.par.pypeitpar.SensFuncPar.__init__",
+     "code:link:script:code:pypeit.scripts.sensfunc.SensFunc"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 34.3,
+    "first_text_seconds": 18.3,
+    "tokens": 515,
+    "facts_found": [
+     "pypeit_sensfunc"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 8,
+    "flagged": false,
+    "answer": "The `pypeit_sensfunc` script requires the 1D spectrum of the reduced standard star exposure, not the science frame [4]. You provide this via the positional argument `spec1dfiles`, which accepts one or more `spec1d*.fits` files [1].\n\nIf your standard star file name is wrong, the script will fail because it cannot find the input data. To fix this:\n\n1.  **Identify the correct file:** Ensure you are pointing to the `spec1d` file generated from the standard star exposure during the reduction process [4].\n2.  **Provide the correct path:** Pass the correct filename as the positional argument. For example:\n    ```console\n    pypeit_sensfunc correct_standard_star_spec1d.fits -o output_sens.fits\n    ```\n    [4]\n\n3.  **Check for multiple detectors:** If your instrument has multiple detectors (e.g., DEIMOS), you may need to splice them. You can do this by providing multiple `spec1d` files that cover different wavelength ranges, or by using the `--multi` option or the `multi_spec_det` parameter in a `.sens` file [1][6]. For example, for DEIMOS:\n    ```ini\n    [sensfunc]\n        multi_spec_det = 3,7\n        algorithm = \"IR\"\n    ```\n    [6]\n\n4.  **Verify coordinates:** If the standard star's coordinates in the header are wrong or missing, you can override them using the `star_ra` and `star_dec` parameters in a `.sens` file or via the `--par_outfile` mechanism, though these are typically set in the `.pypeit` file under `[sensfunc]` [2][3]. The default for both `star_ra` and `star_dec` in `SensFuncPar` is `None`, meaning PypeIt relies on the header values unless overridden [2][3][9].\n\n5.  **Check the algorithm:** Ensure the `--algorithm` matches your wavelength range. Use `UVIS` for λ < 7000 Å and `IR` for λ > 7000 Å [1][7][8]. The default is `UVIS` [9].\n\nIf the file name is correct but the script still crashes, check the log file (enabled with `--log_file`) for more detailed error messages [1]."
+   }
+  },
+  {
+   "id": "g1908",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.755,
+    "best_cos_code": 0.733,
+    "best_cover": 0.43,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:fluxing#pypeit-sensfunc:1",
+     "docs:search:doc:fluxing#pypeit-sensfunc:4",
+     "docs:search:doc:fluxing#sens:0",
+     "docs:search:doc:fluxing#debug:0",
+     "docs:search:param:TelluricPar.pca_lower",
+     "docs:link:definition:doc:fluxing#sensitivity-file:0",
+     "code:search:code:pypeit.utils.zero_not_finite",
+     "code:search:code:pypeit.par.pypeitpar.SensfuncUVISPar.validate",
+     "code:link:definition:code:pypeit.par.pypeitpar.TelluricPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.SensFuncPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 20.6,
+    "first_text_seconds": 14.6,
+    "tokens": 180,
+    "facts_found": [],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": false,
+    "answer": "The provided sources do not contain the specific error message \"ValueError zero-size array to reduction operation minimum\" or its direct cause.\n\nHowever, the sources do show that `pypeit_sensfunc` validates that the sensitivity function file exists if one is provided [8]. If you are using a `--sens` file, ensure it is valid and that the parameters it references (like `tell_npca` or `pca_lower` [5][6]) are correctly set. The `--debug` flag can also be used to throw plots to the screen to help diagnose issues [4].\n\nIf the error persists, it likely relates to an empty or malformed input spectrum or a configuration issue not covered by these specific sources. I recommend checking the PypeIt documentation for `pypeit_sensfunc` error handling or running with `--debug` to inspect intermediate data."
+   }
+  },
+  {
+   "id": "g1886",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.732,
+    "best_cos_code": 0.717,
+    "best_cover": 0.53,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:fluxing#pypeit-sensfunc:1",
+     "docs:search:doc:spectrographs/mosfire#longslit:0",
+     "docs:search:doc:fluxing#pypeit-sensfunc:4",
+     "docs:search:doc:tutorials/mosfire_howto#run-pypeit-setup:0",
+     "docs:link:role:doc:out_spec1D#usage:0",
+     "docs:link:script:doc:scripts#pypeit-sensfunc:1",
+     "code:pinned:code:pypeit.onespec.OneSpec",
+     "code:search:code:pypeit.spectrographs.keck_mosfire.KeckMOSFIRESpectrograph",
+     "code:link:script:code:pypeit.scripts.sensfunc.SensFunc",
+     "code:link:spectrograph:code:pypeit.spectrographs.keck_mosfire"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 23.6,
+    "first_text_seconds": 15.4,
+    "tokens": 316,
+    "facts_found": [
+     "pypeit_sensfunc"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 5,
+    "flagged": false,
+    "answer": "No. `pypeit_sensfunc` accepts `spec1d*.fits` files or the output of `pypeit_coadd_1dspec`, but not `OneSpec` files [1][6].\n\nThe `OneSpec` class is a `DataContainer` for single spectra, typically produced by `CoAdd1D` [7]. While `OneSpec` files can be read into Python using `pypeit.specutils.Spectrum` [5], the `pypeit_sensfunc` script documentation explicitly lists its accepted positional arguments as `spec1dfiles`, defined as \"file(s) of the reduced standard star spectrum. These can be either spec1d*.fits files or the output of `pypeit_coadd_1dspec`\" [1][6].\n\nIf you have a coadded MOSFIRE longslit standard in `OneSpec` format, you should first convert it to a `spec1d` format or use the `spec1d` output from your reduction pipeline before running `pypeit_sensfunc`. For example, a typical call uses a `spec1d` file:\n\n```console\npypeit_sensfunc spec1dfile -o Keck_LRISr_600_7500_sens.fits\n```\n[3]\n\nNote that `pypeit_sensfunc` can splice multiple `spec1d` files if they cover different wavelength ranges, but it does not combine them [1][6]."
+   }
+  },
+  {
+   "id": "g1966",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 8,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.782,
+    "best_cos_code": 0.765,
+    "best_cover": 0.595,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:calibrations/edges#viewing:0",
+     "docs:pinned:doc:out_spec2D#pypeit-show-2dspec:1",
+     "docs:search:doc:out_spec2D#pypeit-show-2dspec:3",
+     "docs:search:doc:calibrations/edges#ginga:0",
+     "docs:search:doc:scripts#pypeit-chk-edges:0",
+     "docs:link:script:doc:tutorials/deveny_howto#deveny-calibrations:0",
+     "code:search:code:pypeit.images.pypeitimage.PypeItImage.show",
+     "code:search:code:pypeit.display.display.show_image",
+     "code:link:script:code:pypeit.scripts.chk_edges.ChkEdges",
+     "code:link:script:code:pypeit.scripts.show_2dspec.Show2DSpec"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 32.8,
+    "first_text_seconds": 20.2,
+    "tokens": 361,
+    "facts_found": [
+     "ginga"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 5,
+    "flagged": false,
+    "answer": "The sources do not provide a direct fix for a ginga viewer that opens but fails to load an image. However, they do offer some diagnostic steps and context:\n\n1.  **Check for version mismatches:** If you are viewing files created by a previous version of PypeIt, the datamodel may be incompatible. The documentation warns that obscure errors can occur in this case. You should check the `VERSPYP` header keyword in the file to see which PypeIt version created it, and either revert to that version or re-reduce the data with the current version [3].\n2.  **Try matplotlib:** Both `pypeit_chk_edges` and `pypeit_show_2dspec` support a `--mpl` flag to use a matplotlib window instead of ginga. This can help determine if the issue is specific to the ginga installation or the data itself [1][2].\n3.  **Check file loading:** The `pypeit_chk_edges` script loads large, compressed FITS files which can take a long time. Ensure the process hasn't just timed out or is still loading [4].\n4.  **Underlying code:** The scripts rely on `pypeit.display.display.show_image` to handle the ginga display [8]. This function accepts a FITS filename or a numpy array and uses `astropy.io.fits` to read the data [8]. If `astropy` cannot read the file, the image will not load.\n\nSince the sources do not cover troubleshooting ginga display failures directly, I recommend checking the PypeIt documentation for \"Troubleshooting\" or \"Installation\" sections, or verifying that your ginga and astropy installations are working correctly with a simple test image."
+   }
+  },
+  {
+   "id": "g2046",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.799,
+    "best_cos_code": 0.743,
+    "best_cover": 0.604,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:setup#pypeit-setup:1",
+     "docs:search:doc:setup#edit-the-pypeit-file:0",
+     "docs:search:doc:frametype#overview:0",
+     "docs:search:doc:tutorials/setup_gui#checking-frame-types:0",
+     "docs:search:doc:setup#b-option:0",
+     "docs:link:script:doc:setup#inspect-the-outputs:0",
+     "code:search:code:pypeit.spectrographs.spectrograph.Spectrograph.vet_assigned_ftypes",
+     "code:search:code:pypeit.metadata.PypeItMetaData.finalize_usr_build",
+     "code:link:script:code:pypeit.scripts.setup.Setup",
+     "code:link:role:code:pypeit.pypeitsetup.PypeItSetup"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 28.3,
+    "first_text_seconds": 18.9,
+    "tokens": 294,
+    "facts_found": [
+     "frametype"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "Automated frame typing for `science` versus `standard` frames is generally not robust for any instrument, so you must manually correct the PypeIt Reduction File [3].\n\nTo set the frame type by hand:\n\n1.  Run `pypeit_setup` to generate the initial `.pypeit` file [1].\n2.  Open the generated `.pypeit` file in a text editor [2].\n3.  Locate the entries for your P200 standard star frames in the Data Block.\n4.  Change the `frametype` value for those specific files from `None` (or `science`) to `standard` [2].\n5.  Ensure no entries remain with `None` frame types, as `run_pypeit` will crash if any are present [2].\n\nYou can verify your assignments against common types like `standard` (standard star observations) and `science` (target observations) [4]. Note that while `pypeit_setup` attempts to distinguish standards by checking if frames are within 10 arcmin of a listed standard star, this automated check is not reliable enough to skip manual inspection [7].\n\nIf you are using the `-b` option, ensure you also check the `calib`, `comb_id`, and `bkg_id` columns, as these are added by default for some instruments and must be edited by hand [5]."
+   }
+  },
+  {
+   "id": "g1887",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 7,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.697,
+    "best_cos_code": 0.705,
+    "best_cover": 0.619,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:cookbook#a-word-on-calibration-data:0",
+     "docs:search:doc:installing#versioning:0",
+     "docs:search:doc:setup#pypeit-obslog:2",
+     "docs:search:doc:trouble#upgrade-faults:0",
+     "docs:search:doc:scripts#:0",
+     "docs:link:role:doc:frametype#automated-typing:0",
+     "code:search:code:pypeit.spectrographs.bok_bc.BokBCSpectrograph.compound_meta",
+     "code:search:code:pypeit.spectrographs.bok_bc.BokBCSpectrograph.raw_header_cards",
+     "code:search:code:pypeit.metadata.PypeItMetaData",
+     "code:link:script:code:pypeit.scripts.show_2dspec.Show2DSpec"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 33.1,
+    "first_text_seconds": 18.8,
+    "tokens": 417,
+    "facts_found": [
+     "binning"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "Yes, PypeIt can still reduce your Bok B&C data even if the binning keyword is missing from the header.\n\nFor the Bok B&C spectrograph, the `raw_header_cards` method explicitly lists `CCDBIN1` and `CCDBIN2` as the keywords propagated to downstream output files for configuration identification [8]. This indicates that PypeIt expects binning information to be stored in these specific header cards rather than a generic \"binning\" keyword.\n\nIf these specific cards are also missing, PypeIt may still attempt to reduce the data, but you should be aware of the following:\n\n1.  **Configuration Mismatch:** The documentation warns that mixing binning between calibration and science frames is a primary \"failure mode\" and is only supported for some instruments by necessity [1]. If PypeIt cannot determine the binning from the headers, it may assume a default or fail to match calibrations to science frames correctly.\n2.  **Metadata Handling:** The `PypeItMetaData` class builds a table based on header keywords defined for each spectrograph [9]. If the required binning keywords (`CCDBIN1`/`CCDBIN2`) are absent, the metadata table will lack this information, which could lead to incorrect frame typing or reduction errors.\n3.  **Troubleshooting:** If you encounter obscure faults after attempting to reduce this data, the recommended troubleshooting step is to re-reduce the data with the current version of PypeIt, as data models may have changed [4][5].\n\nTo verify which metadata keys are expected for your instrument, you can run:\n```bash\npypeit_obslog bok_bc -k\n```\nThis will list the pypeit-specific metadata keys and their associated header cards [3]. If `CCDBIN1` or `CCDBIN2` are listed but missing from your headers, you may need to manually add them or ensure your calibration frames have consistent binning information that PypeIt can infer."
+   }
+  },
+  {
+   "id": "g1885",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 9,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.883,
+    "best_cos_code": 0.837,
+    "best_cover": 0.654,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:calibrations/slit_tracing#pypeit-trace-edges:1",
+     "docs:pinned:doc:running#run-pypeit-usage:1",
+     "docs:search:doc:calibrations/slit_tracing#pypeit-trace-edges:0",
+     "docs:search:doc:calibrations/slit_tracing#slit-tracing-customizing:0",
+     "docs:link:role:doc:calibrations/slit_tracing#overview:0",
+     "docs:link:script:doc:releases/1.18.0#script-changes:0",
+     "code:search:code:pypeit.edgetrace",
+     "code:search:code:pypeit.edgetrace.EdgeTraceSet.auto_trace",
+     "code:link:script:code:pypeit.scripts.trace_edges.TraceEdges",
+     "code:link:script:code:pypeit.scripts.run_pypeit.RunPypeIt"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 25.8,
+    "first_text_seconds": 15.0,
+    "tokens": 346,
+    "facts_found": [
+     "pypeit_trace_edges"
+    ],
+    "facts_missing": [],
+    "expected_cited": false,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "The difference arises because `pypeit_trace_edges` can be run in two ways, and only one of them matches the full reduction workflow.\n\nIf you provide a trace image directly to `pypeit_trace_edges` (using the `-t` flag), the documentation explicitly warns that this approach \"hasn't been well tested and may lead to *different results* from what you get with run_pypeit\" [3]. This is because the full pipeline in `run_pypeit` [2] applies additional processing steps or context that a standalone trace image call does not.\n\nInstead, the recommended workflow is to first construct a complete PypeIt Reduction File (`.pypeit`) using `pypeit_setup`, and then supply that file to `pypeit_trace_edges` using the `-f` flag [3][7]. When you use the `.pypeit` file, `pypeit_trace_edges` uses the same calibration group and parameters as the full reduction, ensuring consistency [1][3].\n\nTo troubleshoot, use the `--debug` option to visualize the tracing stages:\n\n```bash\n$ pypeit_trace_edges -f my_pypeit_file.pypeit --debug 1\n```\n\nThis shows the trace results after each stage, helping you identify where the algorithm diverges from expectations [7]. The underlying algorithm is the `EdgeTraceSet.auto_trace` method, which can be sensitive to parameters like `edge_thresh` [8]. If the trace is still incorrect, you can adjust these parameters in your `.pypeit` file and re-run `pypeit_trace_edges` to test changes without running the full reduction [4]."
+   }
+  },
+  {
+   "id": "g1931",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 3,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.784,
+    "best_cos_code": 0.824,
+    "best_cover": 0.721,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:setup#pypeit-obslog:1",
+     "docs:pinned:doc:setup#pypeit-setup:1",
+     "docs:search:doc:spectrographs/gtc_osiris#targets-centered-on-chip-2:0",
+     "docs:search:doc:setup#inspect-the-outputs:0",
+     "docs:link:role:doc:spectrographs/spectrographs#overview:3",
+     "docs:link:script:doc:setup#pypeit-obslog:0",
+     "code:search:code:pypeit.spectrographs.gtc_osiris.GTCOSIRISPlusSpectrograph",
+     "code:search:code:pypeit.spectrographs.gtc_osiris.GTCOSIRISSpectrograph",
+     "code:link:script:code:pypeit.scripts.obslog.ObsLog",
+     "code:link:script:code:pypeit.scripts.setup.Setup"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 22.9,
+    "first_text_seconds": 15.7,
+    "tokens": 260,
+    "facts_found": [
+     "gtc_osiris"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "For GTC OSIRIS data, you should use one of the following spectrograph identifiers depending on your detector:\n\n- `gtc_osiris` for the standard GTC/OSIRIS MultiSlit configuration [5][8].\n- `gtc_osiris_plus` for the GTC/OSIRIS Plus MultiSlit configuration [5][7].\n- `gtc_maat` for the GTC/MAAT SlicerIFU configuration [5].\n\nThe `pypeit_obslog` and `pypeit_setup` scripts require a valid spectrograph identifier as a positional argument or via the `-s` flag [1][2]. If you are using the standard OSIRIS setup, `gtc_osiris` is the correct identifier [5]. Note that for GTC/OSIRIS, the object of interest is always centered on chip 2, so you may also need to specify `detnum = 2` in your reduction file or use the `-d 2` option when running `run_pypeit` [3].\n\nIf you are unsure which variant applies to your data, check the instrument configuration in your headers or consult the GTC/OSIRIS documentation linked in the spectrograph overview [5]."
+   }
+  },
+  {
+   "id": "g2015",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 7,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.788,
+    "best_cos_code": 0.761,
+    "best_cover": 0.801,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:spectrographs/keck_hires#overview:0",
+     "docs:search:doc:tutorials/hires_howto#run-pypeit-setup:3",
+     "docs:search:doc:spectrographs/keck_hires#default-settings:0",
+     "docs:search:doc:spectrographs/keck_hires#hires-flat:0",
+     "docs:search:doc:dev/hiresconfig#hires-configuration-identification:0",
+     "docs:search:doc:dev/hiresframes#testing:0",
+     "code:search:code:pypeit.spectrographs.keck_hires.KECKHIRESSpectrograph.config_independent_frames",
+     "code:search:code:pypeit.spectrographs.keck_hires.KECKHIRESSpectrograph.vet_assigned_ftypes",
+     "code:link:spectrograph:code:pypeit.spectrographs.keck_hires",
+     "code:link:definition:code:pypeit.par.pypeitpar.FlatFieldPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 29.0,
+    "first_text_seconds": 17.9,
+    "tokens": 380,
+    "facts_found": [],
+    "facts_missing": [
+     "check_frame_type|frametype"
+    ],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": false,
+    "answer": "Bias frames for Keck/HIRES are identified as configuration-independent frames. PypeIt assigns them to a specific instrument configuration group by matching the `dispname` (cross-disperser) and `binning` keywords, rather than using the full configuration definition [5][7].\n\nThe code in `pypeit/spectrographs/keck_hires.py` explicitly defines this behavior in the `config_independent_frames` method, which returns a dictionary mapping `'bias'` to the metadata keys `['dispname', 'binning']` [7]. This means that if your bias frames have header values for `XDISPERS` or `BINNING` that do not match any of your science or calibration frames, they may be assigned to the wrong configuration or fail to associate correctly [5].\n\nTo fix this:\n1.  Inspect the `.pypeit` file generated by `pypeit_setup` to see how the bias frames were typed [2].\n2.  If they are assigned to the wrong configuration or have incorrect types, you can manually edit the Data Block in the `.pypeit` file to correct the frame types or remove them [2].\n3.  Ensure that the `XDISPERS` and `BINNING` headers in your bias files match the intended configuration. Since PypeIt uses these two keys to link bias frames to a setup, any mismatch will cause misassignment [5][7].\n\nNote that `pypeit_setup` runs a vetting step (`vet_assigned_ftypes`) that checks for consistency, but this primarily handles conflicts between `pixelflat` and `slitless_pixflat` types, not bias frame configuration assignment [8]. If the automatic typing is still wrong, manual editing of the `.pypeit` file is the recommended solution [2]."
+   }
+  },
+  {
+   "id": "g1984",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 7,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.787,
+    "best_cos_code": 0.714,
+    "best_cover": 0.467,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:spectrographs/soar_goodman#overview:0",
+     "docs:search:doc:running#run-pypeit-workflow:0",
+     "docs:search:doc:fluxing#ir-without-a-standard:0",
+     "docs:search:param:SensFuncPar.star_mag",
+     "docs:search:override:soar_goodman_red:2",
+     "docs:link:definition:doc:tutorials/nirspec_high_howto#generating-a-sensitivity-function:0",
+     "code:search:code:pypeit.spectrographs.soar_goodman.SOARGoodmanSpectrograph",
+     "code:search:code:pypeit.spectrographs.soar_goodman",
+     "code:link:definition:code:pypeit.par.pypeitpar.SensFuncPar.__init__",
+     "code:link:script:code:pypeit.scripts.run_pypeit.RunPypeIt"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 31.1,
+    "first_text_seconds": 15.2,
+    "tokens": 461,
+    "facts_found": [],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 9,
+    "flagged": true,
+    "answer": "PypeIt decides whether a frame is a standard star via the `check_frame_type` method in the spectrograph class, which reads metadata from the FITS headers [7]. For SOAR/Goodman, the class `SOARGoodmanSpectrograph` (and its red/blue subclasses) handles this logic [8].\n\nIf PypeIt is ignoring your standard frames, check these:\n\n1.  **File Format**: Ensure you are using raw `.fz` files, not pre-processed `.fits` files. PypeIt only works with the raw frames from the telescope [1].\n2.  **Metadata Precedence**: Metadata in your PypeIt reduction file takes precedence over file headers. If you have explicitly set frame types in your `.pypeit` file, they will override what is read from the headers [2].\n3.  **Exposure Time Ranges**: The default configuration for `soar_goodman_red` defines specific exposure time ranges to distinguish frame types. Standard frames are expected to have exposure times between `None` and `120` seconds, while science frames are `90` to `None` seconds [5]. If your standard star exposure time falls outside the `standardframe` range or overlaps incorrectly with `scienceframe`, it may be misclassified.\n4.  **Sensfunc Configuration**: If you are trying to use a standard star for fluxing (sensitivity function) and it is not in the PypeIt database, you must specify its parameters in a sensfunc input file or the `.pypeit` file. For near-IR, set `algorithm = IR` and provide `star_mag` and `star_type` [3][6]. Note that `star_mag` defaults to `None` in `SensFuncPar` [4][9].\n\nNote: The documentation for NIRSPEC mentions a `flatfile` parameter in the sensfunc input [6], but this parameter does not exist in the PypeIt 2.0.1 code [6].\n\nTo debug, verify your exposure times match the `exprng` settings in [5] and ensure your `.pypeit` file does not override the frame type detection."
+   }
+  },
+  {
+   "id": "g2180",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.85,
+    "best_cos_code": 0.827,
+    "best_cover": 0.748,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:calibrations/flexure#algorithm:0",
+     "docs:search:doc:calibrations/flexure#flexure-spectral:0",
+     "docs:search:doc:calibrations/flexure#pypeit-multislit-flexure:0",
+     "docs:search:doc:calibrations/flexure#science-standard-only:0",
+     "docs:link:use:param:FlexurePar.excessive_shift",
+     "docs:link:definition:doc:spectrographs/keck_kcwi#flexure-corrections:0",
+     "code:search:code:pypeit.specobj.SpecObj.apply_spectral_flexure",
+     "code:search:code:pypeit.extraction.Extract.spec_flexure_correct",
+     "code:search:code:pypeit.par.pypeitpar.FlexurePar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.WavelengthSolutionPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 30.1,
+    "first_text_seconds": 17.9,
+    "tokens": 391,
+    "facts_found": [
+     "spec_method"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "PypeIt does not provide a built-in parameter to apply a manual, user-supplied spectral flexure shift. Instead, it calculates the correction automatically via cross-correlation [1][2].\n\nIf you need to apply a custom correction, you must use the multi-detector approach, which is not recommended for most users [3]. To do this:\n\n1.  Disable the standard automatic flexure correction and set the reference frame to observed in your `.pypeit` file [3]:\n    ```ini\n    [flexure]\n        spec_method = skip\n    [calibrations]\n        [[wavelengths]]\n            refframe = observed\n    ```\n2.  Generate a Flexure File using the `pypeit_multislit_flexure` script [3].\n3.  Read in the output and apply it to your spectra using your own custom code [3].\n\nFor standard reductions, you should enable the automatic correction by setting `spec_method` to `boxcar` (recommended) or `slitcen` in the `[flexure]` block [2]. The default is `skip`, meaning no correction is performed [2][9].\n\nIf the automatic correction produces a shift larger than `spec_maxshift`, you can control the behavior using the `excessive_shift` parameter in `FlexurePar` [5]. The default is `use_median`, which uses the median shift among objects in the same slit or other slits [5][9]. Other options include `crash`, `set_to_zero`, and `continue` [5].\n\nNote that the standard algorithm applies a single pixel shift via linear interpolation to the wavelength solution [2]. The code in `pypeit.specobj.SpecObj.apply_spectral_flexure` shows this shift is applied to both `BOX_WAVE` and `OPT_WAVE` attributes [7]."
+   }
+  },
+  {
+   "id": "g1900",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.76,
+    "best_cos_code": 0.704,
+    "best_cover": 0.77,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:tutorials/coadd2d_howto#manual:0",
+     "docs:search:doc:coadd2d#coadd2d-file:0",
+     "docs:search:doc:manual#coadd2d:0",
+     "docs:search:doc:coadd2d#pypeit-setup-coadd2d:4",
+     "docs:link:role:doc:spectrographs/spectrographs#overview:3",
+     "docs:link:definition:doc:coadd3d#coadd3d-file:0",
+     "code:search:code:pypeit.spectrographs.keck_esi.KeckESISpectrograph",
+     "code:search:code:pypeit.spectrographs.keck_esi",
+     "code:link:definition:code:pypeit.par.pypeitpar.ReduxPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.Coadd2DPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 35.5,
+    "first_text_seconds": 20.4,
+    "tokens": 518,
+    "facts_found": [
+     "pypeit_coadd_2dspec"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "To run a manual 2D coadd for Keck/ESI echelle data, you must use the `pypeit_coadd_2dspec` script with a `.coadd2d` input file that specifies the `manual` parameter in the `[coadd2d]` block [1][3].\n\n1.  **Prepare the `.coadd2d` file**:\n    The file requires a Parameter Block and a Data Block [2]. In the Parameter Block, set the `spectrograph` to `keck_esi` [2][5]. To perform manual extraction, define the `manual` parameter with the syntax `det:spat:spec:fwhm`, where coordinates are in the 2D coadded frame [1]. Multiple objects can be separated by semicolons [1].\n\n    Example configuration:\n    ```ini\n    [rdx]\n        spectrograph = keck_esi\n        detnum = 1\n    [coadd2d]\n        manual = 1:22.4:608.1:3.\n    ```\n    The `manual` parameter is part of the `Coadd2DPar` parameter set [10].\n\n2.  **Run the script twice**:\n    Because the object location must be in the 2D coadded frame, you must run `pypeit_coadd_2dspec` twice [1].\n    *   **First run**: Execute the script to generate the 2D coadded frame and inspect it to locate your object's spatial and spectral coordinates [1].\n    *   **Second run**: Update the `manual` parameter in your `.coadd2d` file with the coordinates found in the first step, then run the script again to perform the extraction [1].\n\n3.  **Data Block**:\n    Ensure the Data Block lists your `spec2d` output files, using the `filename` column header [2]:\n    ```ini\n    spec2d read\n        path /path/to/your/Science/folder\n        filename\n        spec2d_001.fits\n        spec2d_002.fits\n    spec2d end\n    ```\n\nYou can generate a default `.coadd2d` file using `pypeit_setup_coadd2d -f <your_pypeit_file>` [4], then edit it to include the `manual` parameter as described above."
+   }
+  },
+  {
+   "id": "g2048",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.806,
+    "best_cos_code": 0.73,
+    "best_cover": 0.608,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:param:WaveTiltsPar.spat_order",
+     "docs:search:doc:calibrations/wavetilts#spatial-order:0",
+     "docs:search:doc:calibrations/tilts#current-wavetilts-data-model:1",
+     "docs:search:doc:calibrations/wave_calib#wvcalib-echelle:0",
+     "docs:link:use:param:WaveTiltsPar.sigrej2d",
+     "docs:link:definition:param:WaveTiltsPar.idsonly",
+     "code:search:code:pypeit.core.tracewave.trace_tilts",
+     "code:search:code:pypeit.wavetilts.BuildWaveTilts.fit_tilts",
+     "code:link:definition:code:pypeit.par.pypeitpar.WaveTiltsPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.EdgeTracePar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 39.4,
+    "first_text_seconds": 23.3,
+    "tokens": 469,
+    "facts_found": [
+     "WaveTiltsPar"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 8,
+    "flagged": false,
+    "answer": "`spat_order` controls the order of the Legendre polynomial fit to the tilt of an arc line across the spatial direction (the slit/order). It determines both the order of the individual arc line tilts and the order of the spatial direction of the 2D Legendre polynomial fit used to obtain a global solution for tilts across the slit/order [1].\n\nThe parameter can be a single number or a list/array providing a value for each slit/order [1]. The default value is 3 in the `WaveTiltsPar` ParSet [1][9]. For very long slits, you may need to increase this to 4 or higher [2].\n\nIn the code, `spat_order` is passed to `tracewave.fit_tilts` via `BuildWaveTilts.fit_tilts`, where it defines the shape of the 2D coefficient array as `(spat_order + 1, spec_order + 1)` [8]. The function `trace_tilts` in `tracewave.py` also accepts `spat_order` as an argument, though its default there is 5 [7].\n\nNote that many spectrographs have specific overrides in the code. For example, `keck_lris_red` defaults to 4, `aat_uhrf` to 4, and `gtc_osiris_plus` to 5 [9]. Setup-dependent overrides include `keck_deimos` and `mmt_binospec`, which default to 2 [9].\n\nIf you are setting `spat_order` per order for echelle data, ensure you are providing a list or array with one value per slit/order, as the parameter supports this type [1]. If the calibration fails, check that the length of your list matches the number of slits/orders being processed. You can also inspect the `spat_order` attribute in the `WaveTilts` data model, which stores the order for each slit [3].\n\nTo set this in your `.pypeit` file:\n```ini\n[calibrations]\n    [[tilts]]\n        spat_order = [3][4][5]\n```\nAdjust the values in the list to match your number of orders [1]."
+   }
+  },
+  {
+   "id": "p01",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.775,
+    "best_cos_code": 0.718,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:param:SkySubPar.bspline_spacing",
+     "docs:search:param:FlatFieldPar.spec_samp_coarse",
+     "docs:search:param:SensfuncUVISPar.nresln",
+     "docs:search:param:FlatFieldPar.spec_samp_fine",
+     "docs:link:definition:param:SkySubPar.global_sky_std",
+     "docs:link:definition:override:bok_bc:0",
+     "code:search:code:pypeit.par.pypeitpar.SkySubPar.__init__",
+     "code:search:code:pypeit.bspline.bspline.bspline._bundle",
+     "code:link:override:code:pypeit.spectrographs.bok_bc.BokBCSpectrograph.default_pypeit_par",
+     "code:link:definition:code:pypeit.par.pypeitpar.FlatFieldPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 25.8,
+    "first_text_seconds": 17.8,
+    "tokens": 255,
+    "facts_found": [
+     "0.6",
+     "SkySubPar",
+     "skysub"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 3,
+    "flagged": false,
+    "answer": "`bspline_spacing` controls the break-point spacing for the B-spline fits used in sky subtraction [1]. Its default value is 0.6, as defined in the `SkySubPar` parameter set [1][7].\n\nYou can override this default in your `.pypeit` file:\n\n```ini\n[reduce]\n    [[skysub]]\n        bspline_spacing = 0.6\n```\n\nNote that the effective default can vary by instrument. For example, the `bok_bc` spectrograph sets it to 0.8 in its `default_pypeit_par` method, though a subsequent line in the same code block resets it to 0.6 [9]. Other instruments have different overrides, such as `aat_uhrf` (3.0), `jwst_nirspec` (5.0), and `keck_kcrm` (0.4) [9]. The parameter is read by several extraction and object-finding routines, including `MultiSlitExtract.local_skysub_extract`, `EchelleExtract.local_skysub_extract`, `FindObjects.global_skysub`, and `SlicerIFUFindObjects.joint_skysub` [7]."
+   }
+  },
+  {
+   "id": "p02",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 2,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.821,
+    "best_cos_code": 0.707,
+    "best_cover": 0.8,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:param:AlignPar.snr_thresh",
+     "docs:pinned:param:FindObjPar.snr_thresh",
+     "docs:search:doc:reduction_tips#object-finding-tips:0",
+     "docs:search:doc:object_finding#snr-thresh:0",
+     "docs:search:doc:object_finding#algorithm:1",
+     "docs:search:doc:object_finding#algorithm:0",
+     "code:search:code:pypeit.core.findobj_skymask.ech_cutobj_on_snr",
+     "code:search:code:pypeit.coadd2d.MultiSlitCoAdd2D.get_brightest_obj",
+     "code:link:definition:code:pypeit.par.pypeitpar.AlignPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.FindObjPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 27.9,
+    "first_text_seconds": 19.5,
+    "tokens": 306,
+    "facts_found": [
+     "ldt_deveny",
+     "50"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 2,
+    "flagged": false,
+    "answer": "For object finding, the `snr_thresh` parameter in the `FindObjPar` ParSet has a global default of 10.0 [2][10]. However, several spectrographs override this default in the code:\n\n*   `apf_levy`: 3.0\n*   `bok_bc`: 5.0\n*   `gemini_flamingos1`: 5.0\n*   `gemini_flamingos2`: 5.0\n*   `jwst_nircam`: 10.0\n*   `jwst_nirspec`: 10.0\n*   `ldt_deveny`: 50.0\n*   `magellan_fire_long`: 5\n*   `mmt_mmirs`: 5.0\n\nThese overrides are set in the code's `default_pypeit_par` [10]. Note that the `jwst_nircam` and `jwst_nirspec` overrides match the global default, while others like `ldt_deveny` are significantly higher.\n\nYou can override these values for your specific reduction by setting the parameter in your `.pypeit` file:\n\n```ini\n[reduce]\n    [[findobj]]\n        snr_thresh = 5.0\n```\n\nThis setting is read by the object finding routines for both multislit and echelle spectrographs [10]."
+   }
+  },
+  {
+   "id": "p03",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.738,
+    "best_cos_code": 0.702,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:param:SkySubPar.bspline_spacing",
+     "docs:pinned:override:keck_lris_red:2",
+     "docs:search:doc:spectrographs/lris#default-settings:0",
+     "docs:search:doc:spectrographs/lris#lrisr-wavesol:0",
+     "docs:search:doc:spectrographs/lris#keck-lris-red:0",
+     "docs:link:definition:override:keck_lris_red:0",
+     "code:pinned:code:pypeit.spectrographs.keck_lris.KeckLRISRSpectrograph.default_pypeit_par",
+     "code:pinned:code:pypeit.spectrographs.keck_lris.KeckLRISRSpectrograph.config_specific_par",
+     "code:link:definition:code:pypeit.par.pypeitpar.SkySubPar.__init__",
+     "code:link:spectrograph:code:pypeit.spectrographs.keck_lris"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 22.2,
+    "first_text_seconds": 16.4,
+    "tokens": 184,
+    "facts_found": [
+     "0.8"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 5,
+    "flagged": false,
+    "answer": "For `keck_lris_red`, the default `bspline_spacing` is **0.8** [2][7].\n\nThis is an instrument-specific override of the global PypeIt default of 0.6 [1][9]. The value is set in the `default_pypeit_par` method of the `KeckLRISRSpectrograph` class [7], and it is also listed in the instrument-specific default parameters documentation [2].\n\nIf you need to change it for a reduction, you can override it in your `.pypeit` file:\n\n```ini\n[reduce]\n    [[skysub]]\n        bspline_spacing = 0.8\n```\n\nNote that the documentation for LRIS RED states that you do not need to add these instrument-specific changes to your PypeIt reduction file, as PypeIt applies them automatically [3]."
+   }
+  },
+  {
+   "id": "p04",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.766,
+    "best_cos_code": 0.63,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:calibrations/flat_fielding#no-flat-fielding:0",
+     "docs:search:doc:calibrations/flat_fielding#no-illumination-flat:0",
+     "docs:search:doc:calibrations/flat_fielding#no-fine-correction-to-the-spatial-illumination:0",
+     "docs:search:doc:calibrations/flat_fielding#flat-field-corrections:0",
+     "docs:search:doc:calibrations/image_proc#flat-fielding:0",
+     "docs:link:role:doc:bitmasks#bit-access:1",
+     "code:search:code:pypeit.images.bitmaskarray.BitMaskArray.turn_off",
+     "code:search:code:pypeit.core.flat",
+     "code:search:code:pypeit.images.rawimage.RawImage.flatfield",
+     "code:link:definition:code:pypeit.par.pypeitpar.FlatFieldPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 21.3,
+    "first_text_seconds": 14.9,
+    "tokens": 299,
+    "facts_found": [
+     "skip|use_pixelflat"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "To turn off flat fielding entirely, add the following to your `.pypeit` file [1]:\n\n```ini\n[baseprocess]\n    use_pixelflat = False\n    use_illumflat = False\n```\n\nNote that if you provide flat field images in the Data Block, they will still be processed but not used [1].\n\nIf you only want to turn off the illumination flat, set `use_illumflat = False` [2]. You can also apply this to specific frametypes, e.g., for standard frames [2]:\n\n```ini\n[calibrations]\n    [[standard]]\n        [[[process]]]\n            use_illumflat = False\n```\n\nTo turn off the fine correction to the spatial illumination profile, set `slit_illum_finecorr = False` in the `flatfield` section [3]:\n\n```ini\n[calibrations]\n    [[flatfield]]\n        slit_illum_finecorr = False\n```\n\nThe default for `slit_illum_finecorr` is `True` in `FlatFieldPar` [10].\n\nImportant: to apply any flat-field correction (slit-illumination or spectral response), `use_pixelflat` must be `True` [5]. The `flatfield` method in `RawImage` applies pixel-to-pixel, slit-illumination, and spectral response corrections multiplicatively [9]."
+   }
+  },
+  {
+   "id": "p05",
+   "retrieval": {
+    "expected_hit": false,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.761,
+    "best_cos_code": 0.701,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:quicklook#overview:4",
+     "docs:search:doc:reduce_by_step#detectors:0",
+     "docs:search:doc:scripts#pypeit-ql:4",
+     "docs:search:doc:setup#prepare:0",
+     "docs:search:doc:pypeit_par#change-par:0",
+     "docs:search:doc:calibrations/image_proc#build-detector-mosaic:0",
+     "code:search:code:pypeit.spectrographs.spectrograph.Spectrograph.select_detectors",
+     "code:search:code:pypeit.spec2dobj.AllSpec2DObj.detectors",
+     "code:search:code:pypeit.spectrographs.spectrograph.Spectrograph.list_detectors",
+     "code:search:code:pypeit.exposure.reduce_exposure"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 31.2,
+    "first_text_seconds": 20.4,
+    "tokens": 342,
+    "facts_found": [],
+    "facts_missing": [
+     "detnum"
+    ],
+    "expected_cited": false,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 6,
+    "flagged": false,
+    "answer": "To change which detectors are reduced, use the `--det` argument in your PypeIt command. This argument accepts a space-separated list of detector integers or comma-separated tuples for mosaics [1][3].\n\nFor example, to reduce detectors 1 and 5 separately for Keck/DEIMOS, use `--det 1 5`. To reduce mosaics made up of detectors 1,5 and 3,7, use `--det 1,5 3,7` [1][3]. The detectors in a mosaic must be an \"allowed\" mosaic for that instrument [1].\n\nBy default, if `--det` is not provided, PypeIt reduces all detectors or the default mosaics for the instrument [1][3]. However, for the step-by-step reduction scripts, the `--det` argument is required; if not provided, the script will list the available detectors/mosaics and exit [2].\n\nUnder the hood, PypeIt uses the `select_detectors` method to vet and return the valid set of detectors or mosaics based on the input subset [7]. If you provide a string like `\"3,(1,5)\"`, it is parsed into the appropriate list of single detectors or mosaics [7]. The `list_detectors` method can also be used to list the names of the detectors in a spectrograph, which is helpful for determining valid detector numbers [9].\n\nNote that the `--det` argument is a command-line flag, not a `.pypeit` file setting. There are no parameter-reference entries for changing detectors in the PypeIt reduction file [10]."
+   }
+  },
+  {
+   "id": "s01",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.816,
+    "best_cos_code": 0.768,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:setup#pypeit-setup:1",
+     "docs:search:doc:setup#second-execution-write-the-pypeit-file-for-one-or-more-setups:0",
+     "docs:search:doc:scripts#pypeit-setup:0",
+     "docs:search:doc:cookbook#setup-pypeit:0",
+     "docs:search:doc:setup#overview:0",
+     "docs:search:doc:setup#first-execution:0",
+     "code:search:code:pypeit.setup_gui.controller.SetupGUIController",
+     "code:search:code:pypeit.setup_gui.model.PypeItFileModel",
+     "code:search:code:pypeit.setup_gui.model.PypeItParamsProxy",
+     "code:link:script:code:pypeit.scripts.setup.Setup"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 24.2,
+    "first_text_seconds": 15.0,
+    "tokens": 304,
+    "facts_found": [
+     "pypeit_setup"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 4,
+    "flagged": false,
+    "answer": "The `-c all` option tells `pypeit_setup` to generate a separate PypeIt Reduction File for every unique instrument configuration found in the raw data [2]. Each unique configuration is assigned an alphabetic identifier (e.g., \"Setup A\", \"Setup B\"), and `pypeit_setup` creates a sub-folder for each one containing its corresponding `.pypeit` file [2][4].\n\nFor example, running:\n\n```bash\npypeit_setup -s keck_deimos -r $RAWDIR -c all\n```\n\nwill create folders such as `keck_deimos_A`, `keck_deimos_B`, etc., each with a file like `keck_deimos_A.pypeit` [4]. Each of these files must then be reduced with its own separate execution of `run_pypeit` [4].\n\nThe `-c` option can also target specific configurations, e.g. `-c A` for one setup or `-c A,C` for multiple [2]. Note that `-c` is required in the second execution of `pypeit_setup` to actually write the PypeIt Reduction File; the first execution (without `-c`) only produces a \"sorted\" list of files [6][4].\n\nThe GUI version of `pypeit_setup` (via `SetupGUIController`) processes the same arguments and can save individual or all configurations through its `save_one` and `save_all` methods [7]."
+   }
+  },
+  {
+   "id": "s02",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 4,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.814,
+    "best_cos_code": 0.673,
+    "best_cover": 0.824,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:cookbook#examine-the-reduced-spectra:0",
+     "docs:search:doc:coadd3d#overview:0",
+     "docs:search:doc:reduction_tips#no-1d-spectra-extracted:0",
+     "docs:search:doc:out_spec2D#overview:0",
+     "docs:search:doc:spectrographs/mosfire#reduction:0",
+     "docs:search:doc:tutorials/deveny_howto#examine-the-science-spectra:0",
+     "code:search:code:pypeit.scripts.rectify_2dspec",
+     "code:search:code:pypeit.spectrographs.spectrograph.Spectrograph.ql_par",
+     "code:search:code:pypeit.spectrographs.spectrograph.Spectrograph.fit_2d_det_response",
+     "code:link:definition:code:pypeit.par.pypeitpar.FindObjPar.__init__"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 25.6,
+    "first_text_seconds": 15.0,
+    "tokens": 401,
+    "facts_found": [],
+    "facts_missing": [
+     "pypeit_show_2dspec"
+    ],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 8,
+    "flagged": true,
+    "answer": "To examine your 2D spectra after a reduction, look in the `Science/` folder of your PypeIt output directory, where PypeIt generates 2D spectral images for each on-source exposure [6]. These images are saved in multi-extension FITS files, separated by detector [4].\n\nYou can also use the `pypeit_coadd_2dspec` script to combine 2D spectra from multiple exposures (e.g., A-B and B-A pairs from dithered observations) into a single 2D spectrum that shows negative-positive-negative traces, which also extracts the combined 1D spectra [5]. Note that PypeIt does not coadd spectra as part of the standard `run_pypeit` process; this must be done outside the pipeline [2].\n\nIf you are missing 1D spectra, it means PypeIt did not find any objects in the corresponding frame [1][3]. To fix this, you can adjust object-finding parameters in your `.pypeit` file. For example, you can modify the FWHM of your object of interest:\n\n```ini\n[reduce]\n    [[findobj]]\n        find_fwhm = 8.\n```\n\nThe default for `find_fwhm` in `FindObjPar` is 5.0 [10]. You can also adjust the maximum number of objects expected per slit or order. Note that the documentation refers to this parameter as `maxnumber` [3], but in PypeIt 2.0.1, the code uses `maxnumber_sci` and `maxnumber_std` instead [10]. You can also ensure slits are correctly identified by adjusting `edge_thresh` or `minimum_slit_length` [3].\n\nFor quick-look reductions, PypeIt sets `skip_optimal = True` for extraction and `skip_second_find = True` for object finding [8]."
+   }
+  },
+  {
+   "id": "c01",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.863,
+    "best_cos_code": 0.864,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:fluxing#fluxspec-class:0",
+     "docs:pinned:doc:fluxing#fluxspec-class:0",
+     "docs:search:doc:fluxing#pypeit-flux-calib:0",
+     "docs:search:doc:fluxing#pypeit-flux-calib:3",
+     "docs:link:use:param:FluxCalibratePar.extrap_sens",
+     "docs:link:definition:param:ProcessImagesPar.use_biasimage",
+     "code:pinned:code:pypeit.specobj.SpecObj.apply_flux_calib",
+     "code:pinned:code:pypeit.specobjs.SpecObjs.apply_flux_calib",
+     "code:link:definition:code:pypeit.par.pypeitpar.ProcessImagesPar.__init__",
+     "code:link:script:code:pypeit.scripts.flux_calib.FluxCalib"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 25.3,
+    "first_text_seconds": 16.4,
+    "tokens": 355,
+    "facts_found": [],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 7,
+    "flagged": true,
+    "answer": "The module `pypeit.fluxcalibrate` and the class `apply_flux_calib` do not exist in PypeIt 2.0.1 [1][2]. The documentation is stale and references a path that has been removed or renamed in this release.\n\nFlux calibration is instead performed by the `pypeit_flux_calib` script [3], which modifies Spec1D output files in place [4]. The underlying logic is implemented in the `apply_flux_calib` methods of the `SpecObj` and `SpecObjs` classes in `pypeit/specobj.py` and `pypeit/specobjs.py` [7][8].\n\nThe `SpecObjs.apply_flux_calib` method takes a `FluxCalibratePar` object, a `Spectrograph`, and a `SensFunc` [8]. It applies the sensitivity function to the spectra, generating `FLAM`, `FLAM_SIG`, and `FLAM_IVAR` [7]. It can also apply telluric correction if `tell=True` [8].\n\nKey parameters in `FluxCalibratePar` include `extrap_sens`, which defaults to `False` [5]. If `False`, the code crashes if the sensitivity function is used outside its defined domain; if `True`, it extrapolates blindly [5]. Note that several spectrographs (e.g., `gtc_osiris`, `keck_hires`, `keck_mosfire`) have `extrap_sens` set to `True` by default in the code [5].\n\nTo run flux calibration, use:\n```console\npypeit_flux_calib flux_file.txt\n```\n[4]",
+    "difference_reported": true
+   }
+  },
+  {
+   "id": "c02",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 1,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.794,
+    "best_cos_code": 0.826,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:pinned:doc:calibrations/tilt#current-tiltimage-data-model:0",
+     "docs:search:doc:calibrations/flexure#tilts-only:0",
+     "docs:search:param:WaveTiltsPar.sigrej2d",
+     "docs:search:doc:calibrations/tilt#inspecting:0",
+     "docs:search:param:WaveTiltsPar.maxdev_tracefit",
+     "docs:link:definition:param:WaveTiltsPar.idsonly",
+     "code:pinned:code:pypeit.images.buildimage.TiltImage",
+     "code:search:code:pypeit.calibrations.Calibrations.get_tiltimg",
+     "code:link:definition:code:pypeit.par.pypeitpar.WaveTiltsPar.__init__",
+     "code:link:override:code:pypeit.spectrographs.keck_lris.KeckLRISRSpectrograph.default_pypeit_par"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 28.4,
+    "first_text_seconds": 17.6,
+    "tokens": 426,
+    "facts_found": [
+     "buildimage"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 10,
+    "flagged": true,
+    "answer": "The `TiltImage` class is defined in `pypeit/images/buildimage.py` as a subclass of `PypeItCalibrationImage` [7]. Note that the documentation references a different module path (`pypeit.images.buildimage.tiltimage.TiltImage`) which does not exist in PypeIt 2.0.1 [1].\n\nThe class is used to load or generate the tilt calibration frame via the `get_tiltimg` method in `pypeit/calibrations.py` [8]. This method identifies the frame type as `'tilt'` and explicitly assigns the class `buildimage.TiltImage` to process the calibration image [8].\n\nThe resulting data model is written to disk with specific HDUs, including `TILT_IMAGE` for the primary data and `TILT_DETECTOR` for detector parameters [1]. You can inspect the output file (e.g., `Calibrations/Tiltimg_A_1_01.fits`) using standard image viewers like Ginga [4].\n\nFor spatial flexure corrections involving tilts, you can enable the correction in your PypeIt file:\n\n```ini\n[calibrations]\n    [[tiltframe]]\n        [[[process]]]\n            spat_flexure_correct = True\n```\n\nThis calculates a spatial offset between trace flats and the tilt image, constructs the tilt solution, and applies offsets to science/standard images [2].\n\nRelevant parameters in `WaveTiltsPar` include:\n- `sigrej2d`: Outlier rejection significance for the global 2D fit (default 3.0; 5.0 for `keck_lris_red`) [3][9][10].\n- `maxdev_tracefit`: Max deviation for Legendre polynomial fits (default 0.2; 1.0 for `keck_lris_red`) [5][9][10].\n- `idsonly`: Use only identified arc lines (default False; currently not used) [6][9].",
+    "difference_reported": true
+   }
+  },
+  {
+   "id": "c03",
+   "retrieval": {
+    "expected_hit": true,
+    "expected_rank": 7,
+    "both_pools": true,
+    "off_topic_pred": false,
+    "best_cos_docs": 0.797,
+    "best_cos_code": 0.76,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:spectrographs/lris#arcs:0",
+     "docs:search:doc:spectrographs/lris#arcs:0",
+     "docs:search:doc:spectrographs/lris#wavelength-solution:0",
+     "docs:search:doc:spectrographs/lris#lrisr-wavesol:0",
+     "docs:search:doc:tutorials/lris_howto#wavelengths:0",
+     "docs:search:doc:tutorials/lris_howto#arc:0",
+     "code:search:code:pypeit.spectrographs.keck_lris.KeckLRISSpectrograph",
+     "code:search:code:pypeit.spectrographs.keck_lris.KeckLRISBSpectrograph.default_pypeit_par",
+     "code:search:code:pypeit.core.wavecal.spectrographs.templ_keck_lris_red",
+     "code:link:spectrograph:code:pypeit.spectrographs.keck_lris"
+    ]
+   },
+   "answer": {
+    "outcome": "ok",
+    "seconds": 25.5,
+    "first_text_seconds": 15.4,
+    "tokens": 370,
+    "facts_found": [
+     "lamps"
+    ],
+    "facts_missing": [],
+    "expected_cited": true,
+    "cited_docs": true,
+    "cited_code": true,
+    "n_cited": 10,
+    "flagged": false,
+    "answer": "For Keck/LRIS, PypeIt recommends turning on most of the standard arc lamps: Ne, Ar, Cd, Kr, Xe, Zn, and Hg [1][2]. The FeAr lamp can also be used since a line list is available, though it appears less useful for obtaining good wavelength solutions [2].\n\nThe wavelength calibration uses the Full Template algorithm by default [3][4]. The specific templates used depend on the grism and detector configuration, and are stored in the `data/arc_lines/reid_arxiv` directory [3][4]. For LRIS Blue, the templates include combinations like `ArCdHgKrNeXeZnFeAr` for the 300/5000 grism [3]. For LRIS Red, templates are generated for various gratings, such as R400, R150_7500, and R300_5000 [9].\n\nIt is important to inspect the QA PNG files in the `QA/PNG/` folder to ensure the calibration is good, looking for many green-marked arc lines and an RMS < 0.1 pixels [5]. You can also run `pypeit_chk_wavecalib` on the `WaveCalib` FITS file to get a summary of the calibration quality [5]. The arc image itself can be viewed with `ginga` to ensure it looks good [6].\n\nThe code for Keck/LRIS is handled by the `KeckLRISSpectrograph` class and its subclasses for Blue and Red detectors [7][10]. The default parameters for LRIS Blue include a `rms_thresh_frac_fwhm` of 0.06 for the 1D wavelength solution [8]."
+   }
+  },
+  {
+   "id": "o01",
+   "retrieval": {
+    "expected_hit": null,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": true,
+    "best_cos_docs": 0.526,
+    "best_cos_code": 0.535,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:setup#inspect-the-outputs:0",
+     "docs:search:doc:standards#load-the-standard-from-any-archive-nearest-to-a-set-of-coordinates:0",
+     "docs:search:doc:setup#setup-metadata:2",
+     "docs:search:doc:standards#find-the-standard-in-a-specific-archive-nearest-to-a-set-of-coordinates:0",
+     "docs:search:param:AlignPar.locations",
+     "docs:link:definition:param:AlignPar.snr_thresh",
+     "code:search:code:pypeit.setup_gui.model.PypeItMetadataModel.getColumnNameFromNum",
+     "code:search:code:pypeit.core.basis.flegendre",
+     "code:link:definition:code:pypeit.par.pypeitpar.AlignPar.__init__",
+     "code:link:script:code:pypeit.scripts.setup.Setup"
+    ]
+   }
+  },
+  {
+   "id": "o02",
+   "retrieval": {
+    "expected_hit": null,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": true,
+    "best_cos_docs": 0.562,
+    "best_cos_code": 0.602,
+    "best_cover": 1.0,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:running#o:0",
+     "docs:search:doc:governance#governance-maintain:0",
+     "docs:search:doc:codeconduct#:0",
+     "docs:search:doc:index#community:0",
+     "docs:search:doc:tutorials/mosfire_howto#main-run:0",
+     "docs:link:use:param:Collate1DPar.outdir",
+     "code:search:code:pypeit.scripts.collate_1d.write_warnings",
+     "code:search:code:pypeit.metadata.PypeItMetaData.write",
+     "code:search:code:pypeit.setup_gui.model.LogBuffer.write",
+     "code:search:code:pypeit.history.History.write_to_header"
+    ]
+   }
+  },
+  {
+   "id": "o03",
+   "retrieval": {
+    "expected_hit": null,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": true,
+    "best_cos_docs": 0.64,
+    "best_cos_code": 0.665,
+    "best_cover": 0.625,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:calibrations/wave_calib#user-linelists:0",
+     "docs:search:doc:standards#find-the-standard-in-a-specific-archive-nearest-to-a-set-of-coordinates:0",
+     "docs:search:doc:calibrations/wave_calib#user-linelists:2",
+     "docs:search:doc:standards#load-the-standard-from-any-archive-nearest-to-a-set-of-coordinates:0",
+     "docs:search:doc:standards#load-a-standard-from-a-specific-archive-using-its-name:0",
+     "docs:link:script:doc:scripts#pypeit-install-linelist:0",
+     "code:search:code:pypeit.par.util.eval_list",
+     "code:search:code:pypeit.scripts.install_linelist.InstallLinelist.get_parser",
+     "code:link:script:code:pypeit.scripts.install_linelist.InstallLinelist",
+     "code:link:role:code:pypeit.core.standard.nearest_archive_entry"
+    ]
+   }
+  },
+  {
+   "id": "o04",
+   "retrieval": {
+    "expected_hit": null,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": true,
+    "best_cos_docs": 0.525,
+    "best_cos_code": 0.523,
+    "best_cover": 0.713,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:doc:cookbook#:0",
+     "docs:search:doc:calibrations/construct_template#using-the-holy-grail-algorithm:0",
+     "docs:search:param:ReduxPar.quicklook",
+     "docs:search:doc:cookbook#a-word-on-calibration-data:0",
+     "docs:search:doc:dev/conda_forge#:0",
+     "docs:link:definition:doc:spectrographs/deimos#deimos-mosaic:0",
+     "code:search:code:pypeit.core.wavecal.autoid.HolyGrail.cross_match",
+     "code:search:code:pypeit.utils.replace_bad",
+     "code:link:definition:code:pypeit.par.pypeitpar.ReduxPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.Coadd1DPar.__init__"
+    ]
+   }
+  },
+  {
+   "id": "o05",
+   "retrieval": {
+    "expected_hit": null,
+    "expected_rank": null,
+    "both_pools": true,
+    "off_topic_pred": true,
+    "best_cos_docs": 0.63,
+    "best_cos_code": 0.643,
+    "best_cover": 0.665,
+    "coverage": {
+     "docs": true,
+     "code": true
+    },
+    "sources": [
+     "docs:search:param:ReduxPar.ignore_bad_headers",
+     "docs:search:param:Collate1DPar.ignore_flux",
+     "docs:search:doc:telluric#tell-file-t:0",
+     "docs:search:doc:setup#pypeit-setup:3",
+     "docs:search:doc:telluric#tell-grid-g:0",
+     "docs:search:doc:telluric#tell-npca:0",
+     "code:search:code:pypeit.par.util._eval_ignore",
+     "code:search:code:pypeit.metadata.PypeItMetaData.ignore_frames",
+     "code:link:definition:code:pypeit.par.pypeitpar.ReduxPar.__init__",
+     "code:link:definition:code:pypeit.par.pypeitpar.Collate1DPar.__init__"
+    ]
+   }
+  }
+ ]
+}
